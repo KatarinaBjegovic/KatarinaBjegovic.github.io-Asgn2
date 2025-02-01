@@ -105,7 +105,9 @@ var g_seconds = performance.now()/1000.0 - g_startTime;
 
 function tick(){
     g_seconds = performance.now()/1000.0-g_startTime;
-    console.log(g_seconds );
+    //console.log(g_seconds );
+
+    updateAnimationAngles();
 
     renderAllShapes();
 
@@ -121,6 +123,11 @@ function convertCoordinatesEventToGL(ev){
     return([x,y]);
 }
 
+function updateAnimationAngles(){
+    if (g_yellowAngleAnimation) {
+        g_yellowAngle = (45*Math.sin(g_seconds));
+    }
+}
 
 function renderAllShapes(){
 
@@ -144,11 +151,14 @@ function renderAllShapes(){
     leftArm.color = [1,1,0,1];
     leftArm.matrix.setTranslate(0,-0.5,0.0);
     leftArm.matrix.rotate(-5,1,0,0);
-    if (g_yellowAngleAnimation){
-        leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
-    } else {
-        leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
-    }
+
+    leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+
+    // if (g_yellowAngleAnimation){
+    //     leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
+    // } else {
+    //     
+    // }
     var yellowCoordinatesMat = new Matrix4(leftArm.matrix);
     leftArm.matrix.scale(0.25,0.7,0.5);
     leftArm.matrix.translate(-0.5,0,0);
