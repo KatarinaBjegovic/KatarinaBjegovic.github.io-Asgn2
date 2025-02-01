@@ -66,25 +66,14 @@ function connectVariablesToGLSL(){
 }
 
 
-const POINT = 0;
-const TRIANGLE = 1;
-const CIRCLE = 2;
-const CUBE = 3;
-let g_selectedColor = [1.0,1.0,1.0,1.0];
-let g_selectedSize = 5;
-let g_selectedType=POINT;
 let g_globalAngle = 0;
+let g_yellowAngle = 0;
 
 function addActionsForHTMLUI(){
-    document.getElementById("red").addEventListener('mouseup', function(){g_selectedColor[0] = this.value/255; }); 
-    document.getElementById("green").addEventListener('mouseup', function(){g_selectedColor[1] = this.value/255; }); 
-    document.getElementById("blue").addEventListener('mouseup', function(){g_selectedColor[2] = this.value/255; }); 
 
-    document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
+    document.getElementById("angle_slider").addEventListener('mousemove', function(){g_yellowAngle = this.value; renderAllShapes();}); 
+    document.getElementById("yellow_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
-    document.getElementById('square').onclick = function() {g_selectedType = SQUARE};
-    document.getElementById('triangle').onclick = function() {g_selectedType=TRIANGLE};
-    document.getElementById('circle').onclick = function() {g_selectedType=CIRCLE};
 }
 
 
@@ -95,8 +84,8 @@ function main() {
     connectVariablesToGLSL();
     addActionsForHTMLUI();
 
-    canvas.onmousedown = click;
-    canvas.onmousemove = function(ev){ if (ev.buttons == 1) { click(ev) } };
+    // canvas.onmousedown = click;
+    // canvas.onmousemove = function(ev){ if (ev.buttons == 1) { click(ev) } };
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -137,7 +126,7 @@ function renderAllShapes(){
     leftArm.color = [1,1,0,1];
     leftArm.matrix.setTranslate(0,-0.5,0.0);
     leftArm.matrix.rotate(-5,1,0,0);
-    leftArm.matrix.rotate(0,0,0,1);
+    leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
     leftArm.matrix.scale(0.25,0.7,0.5);
     leftArm.matrix.translate(-0.5,0,0);
     leftArm.render();
@@ -157,32 +146,4 @@ function renderAllShapes(){
 function sendTextToHTML(text, html_ID){
     return;
 }
-
-
-
-
-
-// function click(ev ) {
-//     [x,y] = convertCoordinatesEventToGL(ev);
-
-//     let point;
-//     if (g_selectedType==CIRCLE) {
-//         point = new Circle();
-//         point.segments = g_selectedSegments;
-//     } else if (g_selectedType==TRIANGLE) {
-//         point = new Triangle();
-//     } // else if (g_selectedType==HARDTRI) { point = new HardTri(); }
-//     else {
-//         point = new Point();
-//     }
-
-
-//     point.position = [x,y];
-//     point.color = g_selectedColor.slice();
-//     point.size = g_selectedSize;
-//     g_shapesList.push(point);
-
-//     renderAllShapes();
-// }
-
-
+ 
