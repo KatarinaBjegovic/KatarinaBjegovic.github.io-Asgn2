@@ -31,6 +31,8 @@ function setupWebGL(){
         console.log('Failed to get the rendering context');
         return;
     }
+
+    gl.enable(gl.DEPTH_TEST);
 }
 
 function connectVariablesToGLSL(){
@@ -128,23 +130,26 @@ function renderAllShapes(){
 
     var body = new Cube();
     body.color = [1.0,0.0,0.0,1.0];
-    body.matrix.translate(-0.25, -0.5, 0.0);
+    body.matrix.translate(-0.25, -0.75, 0.0);
+    body.matrix.rotate(-5,1,0,0);
     body.matrix.scale(0.5,1.0,5);
     body.render();
 
     var leftArm = new Cube();
     leftArm.color = [1,1,0,1];
-    leftArm.matrix.setTranslate(-0.7,0.0,0.0);
-    leftArm.matrix.rotate(45,0,0,1);
+    leftArm.matrix.setTranslate(0,-0.5,0.0);
+    leftArm.matrix.rotate(-5,1,0,0);
+    leftArm.matrix.rotate(0,0,0,1);
     leftArm.matrix.scale(0.25,0.7,0.5);
+    leftArm.matrix.translate(-0.5,0,0);
     leftArm.render();
 
 
     var box = new Cube();
     box.color = [1,0,1,1];
-    box.matrix.translate(0,0,-0.5,0);
+    box.matrix.translate(-0.1,0.1,0.0);
     box.matrix.rotate(-30,1,0,0);
-    box.matrix.scale(0.5,0.5,0.5);
+    box.matrix.scale(0.2,0.4,0.2);
     box.render(); 
 
     var duration = performance.now() - startTime;
