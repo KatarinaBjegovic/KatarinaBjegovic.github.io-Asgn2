@@ -82,8 +82,6 @@ function addActionsForHTMLUI(){
 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
-    document.getElementById('clear').onclick = function() {g_shapesList=[]; renderAllShapes();};
-
     document.getElementById('square').onclick = function() {g_selectedType = SQUARE};
     document.getElementById('triangle').onclick = function() {g_selectedType=TRIANGLE};
     document.getElementById('circle').onclick = function() {g_selectedType=CIRCLE};
@@ -156,39 +154,35 @@ function renderAllShapes(){
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
 }
 
-function renderSavedShapes(){
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    var len = g_shapesList_SAVED.length;
-
-    for (var i = 0; i < len; i++) {
-        g_shapesList_SAVED[i].render();
-    }
+function sendTextToHTML(text, html_ID){
+    return;
 }
 
 
 
 
-function click(ev ) {
-    [x,y] = convertCoordinatesEventToGL(ev);
 
-    let point;
-    if (g_selectedType==CIRCLE) {
-        point = new Circle();
-        point.segments = g_selectedSegments;
-    } else if (g_selectedType==TRIANGLE) {
-        point = new Triangle();
-    } // else if (g_selectedType==HARDTRI) { point = new HardTri(); }
-    else {
-        point = new Point();
-    }
+// function click(ev ) {
+//     [x,y] = convertCoordinatesEventToGL(ev);
+
+//     let point;
+//     if (g_selectedType==CIRCLE) {
+//         point = new Circle();
+//         point.segments = g_selectedSegments;
+//     } else if (g_selectedType==TRIANGLE) {
+//         point = new Triangle();
+//     } // else if (g_selectedType==HARDTRI) { point = new HardTri(); }
+//     else {
+//         point = new Point();
+//     }
 
 
-    point.position = [x,y];
-    point.color = g_selectedColor.slice();
-    point.size = g_selectedSize;
-    g_shapesList.push(point);
+//     point.position = [x,y];
+//     point.color = g_selectedColor.slice();
+//     point.size = g_selectedSize;
+//     g_shapesList.push(point);
 
-    renderAllShapes();
-}
+//     renderAllShapes();
+// }
 
 
