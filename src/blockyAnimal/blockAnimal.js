@@ -3,7 +3,7 @@ var VSHADER_SOURCE = `
     uniform mat4 u_ModelMatrix; 
     uniform mat4 u_GlobalRotateMatrix;
     void main() {
-        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
+        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_position;
     }`
 
 var FSHADER_SOURCE = `
@@ -67,6 +67,7 @@ function connectVariablesToGLSL(){
 const POINT = 0;
 const TRIANGLE = 1;
 const CIRCLE = 2;
+const CUBE = 3;
 let g_selectedColor = [1.0,1.0,1.0,1.0];
 let g_selectedSize = 5;
 let g_selectedType=POINT;
