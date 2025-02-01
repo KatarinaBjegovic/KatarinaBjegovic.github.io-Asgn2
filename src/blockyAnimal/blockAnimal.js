@@ -69,8 +69,12 @@ function connectVariablesToGLSL(){
 let g_globalAngle = 0;
 let g_yellowAngle = 0;
 let g_purpleAnlge = 0;
+g_yellowAngleAnimation = false;
 
 function addActionsForHTMLUI(){
+
+    document.getElementById('on').onclick = function() {g_yellowAngleAnimation = true; };
+    document.getElementById('off').onclick = function() {g_yellowAngleAnimation = false; };
 
     document.getElementById("yellow_slider").addEventListener('mousemove', function(){g_yellowAngle = this.value; renderAllShapes();}); 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
@@ -140,8 +144,11 @@ function renderAllShapes(){
     leftArm.color = [1,1,0,1];
     leftArm.matrix.setTranslate(0,-0.5,0.0);
     leftArm.matrix.rotate(-5,1,0,0);
-    //leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
-    leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
+    if (g_yellowAngleAnimation){
+        leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
+    } else {
+        leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+    }
     var yellowCoordinatesMat = new Matrix4(leftArm.matrix);
     leftArm.matrix.scale(0.25,0.7,0.5);
     leftArm.matrix.translate(-0.5,0,0);
