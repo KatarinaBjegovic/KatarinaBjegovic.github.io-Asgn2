@@ -1,9 +1,9 @@
 var VSHADER_SOURCE = `
     attribute vec4 a_position;
-    uniform float u_size; 
+    uniform mat4 u_ModelMatrix; 
+    uniform mat4 u_GlobalRotateMatrix;
     void main() {
-        gl_Position = a_position;
-        gl_PointSize = u_size ;
+        gl_Position = u_GlobalRotateMatrix * u_ModelMatrix * a_Position;
     }`
 
 var FSHADER_SOURCE = `
@@ -13,53 +13,19 @@ var FSHADER_SOURCE = `
         gl_FragColor = u_FragColor;
     }`
 
-
-
-
-
-function drawTriangle(verticies){
-    var n = 3;
-
-    var vertexBuffer = gl.createBuffer();
-    if (!vertexBuffer) {
-        console.log('Failed to create buffer object');
-        return -1;
-    }
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticies), gl.DYNAMIC_DRAW);
-
-    gl.vertexAttribPointer(a_position, 2, gl.FLOAT, false, 0,0);
-
-    gl.enableVertexAttribArray(a_position);
-
-    gl.drawArrays(gl.TRIANGLES, 0, n);
-}
-
-
-
-
-
-const SQUARE = 0;
-const TRIANGLE = 1;
-const CIRCLE = 2;
 let canvas;
 let gl;
 let a_position;
 let u_FragColor;
 let u_size;
-let g_selectedColor = [0.5,0.5,0.5,1.0];
-let g_selectedSize = 20.0;
-let g_selectedType=SQUARE;
-let g_selectedSegments = 10.0;
-var g_shapesList = [];
-var g_shapesList_SAVED = [];
+let u_ModelMatrix;
+let u_GlobalRotateMatrix;
+
 
 
 function setupWebGL(){
     canvas = document.getElementById('webgl');
-    gl = getWebGLContext(canvas); 
+    //gl = getWebGLContext(canvas); 
     gl = canvas.getContext( "webgl", { preserveDrawingBuffer: true} );
     if (!gl) {
         console.log('Failed to get the rendering context')
@@ -82,20 +48,36 @@ function connectVariablesToGLSL(){
         console.log('Failed to get the storage location of u_FragColor');
         return;
     }
-    u_size = gl.getUniformLocation(gl.program, 'u_size');
-    if (!u_size) {
-        console.log('Failed to get the storage location of u_FragColor');
+    u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
+    if (!u_ModelMatrix) {
+        console.log('Failed to get the storage location of u_ModelMatrix');
         return;
     }
+    u_GlobalRotateMatrix = gl.getUniformLocation(gl.program, 'u_GlobalRotateMatrix');
+    if (!u_GlobalRotateMatrix) {
+        console.log('Failed to get the storage location of u_GlobalRotateMatrix');
+        return;
+    }
+
+    var identityM = new Matrix4();
+    gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
+
+
+const POINT = 0;
+const TRIANGLE = 1;
+const CIRCLE = 2;
+let g_selectedColor = [1.0,1.0,1.0,1.0];
+let g_selectedSize = 5;
+let g_selectedType=POINT;
+let g_globalAngle = 0;
 
 function addActionsForHTMLUI(){
     document.getElementById("red").addEventListener('mouseup', function(){g_selectedColor[0] = this.value/255; }); 
     document.getElementById("green").addEventListener('mouseup', function(){g_selectedColor[1] = this.value/255; }); 
     document.getElementById("blue").addEventListener('mouseup', function(){g_selectedColor[2] = this.value/255; }); 
 
-    document.getElementById("size_slider").addEventListener('mouseup', function(){g_selectedSize = this.value; }); 
-    document.getElementById("segment_slider").addEventListener('mouseup', function(){g_selectedSegments = this.value; }); 
+    document.getElementById("angle_slider").addEventListener('mouseup', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
     document.getElementById('clear').onclick = function() {g_shapesList=[]; renderAllShapes();};
 
@@ -117,7 +99,8 @@ function main() {
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    //gl.clear(gl.COLOR_BUFFER_BIT);
+    renderAllShapes();
 }
 
 
@@ -132,12 +115,39 @@ function convertCoordinatesEventToGL(ev){
 
 
 function renderAllShapes(){
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    var len = g_shapesList.length;
 
-    for (var i = 0; i < len; i++) {
-        g_shapesList[i].render();
-    }
+    var startTime = performance.now();
+
+    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0,1,0);
+    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    //drawTriangle3D([-1.0,0.0,0.0,  -0.5,-1.0,0.0,  0.0,0.0,0.0])
+
+    var body = new Cube();
+    body.color = [1.0,0.0,0.0,1.0];
+    body.matrix.translate(-0.25, -0.5, 0.0);
+    body.matrix.scale(0.5,1.0,5);
+    body.render();
+
+    var leftArm = new Cube();
+    leftArm.color = [1,1,0,1];
+    leftArm.matrix.setTranslate(-0.7,0.0,0.0);
+    leftArm.matrix.rotate(45,0,0,1);
+    leftArm.matrix.scale(0.25,0.7,0.5);
+    leftArm.render();
+
+
+    var box = new Cube();
+    box.color = [1,0,1,1];
+    box.matrix.translate(0,0,-0.5,0);
+    box.matrix.rotate(-30,1,0,0);
+    box.matrix.scale(0.5,0.5,0.5);
+    box.render(); 
+
+    var duration = performance.now() - startTime;
+    sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
 }
 
 function renderSavedShapes(){
