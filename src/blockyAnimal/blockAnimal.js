@@ -68,11 +68,13 @@ function connectVariablesToGLSL(){
 
 let g_globalAngle = 0;
 let g_yellowAngle = 0;
+let g_purpleAnlge = 0;
 
 function addActionsForHTMLUI(){
 
     document.getElementById("yellow_slider").addEventListener('mousemove', function(){g_yellowAngle = this.value; renderAllShapes();}); 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
+    document.getElementById("purple_slider").addEventListener('mousemove', function(){g_purpleAnlge= this.value; renderAllShapes();}); 
 
 }
 
@@ -91,8 +93,20 @@ function main() {
 
     //gl.clear(gl.COLOR_BUFFER_BIT);
     renderAllShapes();
+    requestAnimationFrame(tick);
 }
 
+var g_startTime = performance.now()/1000.0;
+var g_seconds = performance.now()/1000.0 - g_startTime;
+
+function tick(){
+    g_seconds = performance.now()/1000.0-g_startTime;
+    console.log(g_seconds );
+
+    renderAllShapes();
+
+    requestAnimationFrame(tick);
+}
 
 function convertCoordinatesEventToGL(ev){
     var x = ev.clientX; // x coordinate of a mouse pointer 
@@ -111,22 +125,23 @@ function renderAllShapes(){
     var globalRotMat = new Matrix4().rotate(g_globalAngle, 0,1,0);
     gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
 
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT); 
     //drawTriangle3D([-1.0,0.0,0.0,  -0.5,-1.0,0.0,  0.0,0.0,0.0])
 
     var body = new Cube();
     body.color = [1.0,0.0,0.0,1.0];
     body.matrix.translate(-0.25, -0.75, 0.0);
     body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.5,1.0,5);
+    body.matrix.scale(0.5,0.3,0.5);
     body.render();
 
     var leftArm = new Cube();
     leftArm.color = [1,1,0,1];
     leftArm.matrix.setTranslate(0,-0.5,0.0);
     leftArm.matrix.rotate(-5,1,0,0);
-    leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+    //leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+    leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
     var yellowCoordinatesMat = new Matrix4(leftArm.matrix);
     leftArm.matrix.scale(0.25,0.7,0.5);
     leftArm.matrix.translate(-0.5,0,0);
@@ -136,9 +151,12 @@ function renderAllShapes(){
     var box = new Cube();
     box.color = [1,0,1,1];
     box.matrix = yellowCoordinatesMat;
-    box.matrix.translate(0,0.7,0);
+    box.matrix.translate(0,0.65,0);
+    box.matrix.rotate(g_purpleAnlge,0,0,1);
+    box.matrix.scale(0.3,0.3,0.3);
+    box.matrix.translate(-0.5,0,-0.001);
     // box.matrix.rotate(-30,1,0,0);
-    // box.matrix.scale(0.2,0.4,0.2);
+    // box.matrix.scale( 0.2,0.4,0.2);
     box.render(); 
 
     var duration = performance.now() - startTime;
