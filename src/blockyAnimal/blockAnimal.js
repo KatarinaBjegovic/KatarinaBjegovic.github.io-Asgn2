@@ -126,6 +126,7 @@ function convertCoordinatesEventToGL(ev){
 function updateAnimationAngles(){
     if (g_yellowAngleAnimation) {
         g_yellowAngle = (45*Math.sin(g_seconds));
+        g_purpleAnlge = (45*Math.sin(3*g_seconds));
     }
 }
 
@@ -176,11 +177,25 @@ function renderAllShapes(){
     // box.matrix.scale( 0.2,0.4,0.2);
     box.render(); 
 
+    var K=10.0;
+    for (var i=1;i<K; i++) {
+        var c = new Cube();
+        c.matrix.translate(-0.8,9*i/K-1.0,0);
+        c.matrix.rotate(g_seconds*100, 1,1,1);
+        c.matrix.scale(0.1,0.5/K, 1.0/K);
+        c.render();
+    }
+
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
 }
 
 function sendTextToHTML(text, html_ID){
-    return;
+    var htmlElm = document.getElementById(html_ID);
+    if (!htmlElm) {
+        console.log("Failed to get " + htmlElm + " from HTML");
+        return;
+    }
+    htmlElm.innerHTML = text;
 }
  
