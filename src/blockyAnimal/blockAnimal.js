@@ -28,7 +28,7 @@ function setupWebGL(){
     //gl = getWebGLContext(canvas); 
     gl = canvas.getContext( "webgl", { preserveDrawingBuffer: true} );
     if (!gl) {
-        console.log('Failed to get the rendering context')
+        console.log('Failed to get the rendering context');
         return;
     }
 }
@@ -77,7 +77,7 @@ function addActionsForHTMLUI(){
     document.getElementById("green").addEventListener('mouseup', function(){g_selectedColor[1] = this.value/255; }); 
     document.getElementById("blue").addEventListener('mouseup', function(){g_selectedColor[2] = this.value/255; }); 
 
-    document.getElementById("angle_slider").addEventListener('mouseup', function(){g_globalAngle = this.value; renderAllShapes();}); 
+    document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
     document.getElementById('clear').onclick = function() {g_shapesList=[]; renderAllShapes();};
 
