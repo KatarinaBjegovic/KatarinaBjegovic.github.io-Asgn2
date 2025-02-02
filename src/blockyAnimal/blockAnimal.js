@@ -290,18 +290,383 @@ function renderAllShapes(){
     neck.color = [0.35,0.35,0.35,1.0];
     neck.matrix.translate(-.125, 0.14, 0);
     //body.matrix.rotate(-5,1,0,0);
-    neck.matrix.scale(0.25,0.05,0.4);
+    neck.matrix.scale(0.25,0.05,0.2);
     neck.render();
 
     var body = new Cube();
     body.color = [0.35,0.35,0.35,1.0];
-    body.matrix.translate(-.3, -0.37, 0);
+    body.matrix.translate(-0.25, -0.55, 0);
     //body.matrix.rotate(-5,1,0,0);
-    body.matrix.scale(0.6,0.5,0.4);
+    body.matrix.scale(0.5,0.68,0.2);
     body.render();
 
+    var shirt = new Cube();
+    shirt.color = [0,0,0,1.0];
+    shirt.matrix.translate(-0.28, -0.1, -0.01);
+    //body.matrix.rotate(-5,1,0,0);
+    shirt.matrix.scale(0.55,0.2,0.22);
+    shirt.render();
+    
+    var shirt2 = new Cube();
+    shirt2.color = [0,0,0,1.0];
+    shirt2.matrix.translate(-0.3, -0.15, -0.01);
+    //body.matrix.rotate(-5,1,0,0);
+    shirt2.matrix.scale(0.59,0.2,0.22);
+    shirt2.render();
+
+    var shirt3 = new Cube();
+    shirt3.color = [0,0,0,1.0];
+    shirt3.matrix.translate(-0.32, -0.38, -0.01);
+    //body.matrix.rotate(-5,1,0,0);
+    shirt3.matrix.scale(0.63,0.4,0.22);
+    shirt3.render();
+
+    var shirt4 = new Cube();
+    shirt4.color = [0,0,0,1.0];
+    shirt4.matrix.translate(-0.3, -0.4, -0.01);
+    //body.matrix.rotate(-5,1,0,0);
+    shirt4.matrix.scale(0.59,0.25,0.22);
+    shirt4.render();
+
+    var shirt5 = new Cube();
+    shirt5.color = [0,0,0,1.0];
+    shirt5.matrix.translate(-0.28, -0.43, -0.01);
+    //body.matrix.rotate(-5,1,0,0);
+    shirt5.matrix.scale(0.55,0.2,0.22);
+    shirt5.render();
+
+    var leftLeg = new Cube();
+    leftLeg.color = [0.35,0.35,0.35,1.0];
+    leftLeg.matrix.translate(-0.25, -0.85, -0.048);
+    //body.matrix.rotate(-5,1,0,0);
+    leftLeg.matrix.scale(0.24,0.38,0.25);
+    leftLeg.render();
+
+    var blendLeftLeg = new Cube();
+    blendLeftLeg.color = [0.35,0.35,0.35,1.0];
+    blendLeftLeg.matrix.translate(-0.25, -0.48, -0.03);
+    //body.matrix.rotate(-5,1,0,0);
+    blendLeftLeg.matrix.scale(0.24,0.05,0.2);
+    blendLeftLeg.render();
+
+
+    var rightLeg = new Cube();
+    rightLeg.color = [0.35,0.35,0.35,1.0];
+    rightLeg.matrix.translate(0.01, -0.85, -0.048);
+    //body.matrix.rotate(-5,1,0,0);
+    rightLeg.matrix.scale(0.24,0.38,0.25);
+    rightLeg.render();
+
+    var blendRightLeg = new Cube();
+    blendRightLeg.color = [0.35,0.35,0.35,1.0];
+    blendRightLeg.matrix.translate(0.01, -0.48, -0.03);
+    //body.matrix.rotate(-5,1,0,0);
+    blendRightLeg.matrix.scale(0.24,0.05,0.2);
+    blendRightLeg.render();
+
+    var leftFoot = new Cube();
+    leftFoot.color = [0.35,0.35,0.35,1.0];
+    leftFoot.matrix.translate(-0.25, -0.75, 0.01);
+    leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    leftFoot.matrix.scale(0.24,0.1,0.15);
+    leftFoot.render(); 
+
+    // var blendLeftFoot = new Cube();
+    // leftFoot.color = [0.35,0.35,0.35,1.0];
+    // leftFoot.matrix.translate(-0.25, 0, 0.8);
+    // leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    // leftFoot.matrix.scale(0.24,0.5,0.5);
+    // leftFoot.render(); 
+
+    var rightFoot = new Cube();
+    rightFoot.color = [0.35,0.35,0.35,1.0];
+    rightFoot.matrix.translate(0.01, -0.75, 0.01);
+    rightFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    rightFoot.matrix.scale(0.24,0.1,0.15);
+    rightFoot.render(); 
+
+
+
+
+    var guitarArm = new Cube(); 
+    guitarArm.color = [0.82,0.67,0.49,1.0];
+    guitarArm.matrix.translate(0.2, -0.1, -0.1);
+    guitarArm.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarArm.matrix.scale(0.5,0.1,0.05);
+    guitarArm.render(); 
+
+    var guitarTop = new Cube(); 
+    guitarTop.color = [0.82,0.67,0.49,1.0];
+    guitarTop.matrix.translate(0.57, 0.24, -0.1);
+    guitarTop.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarTop.matrix.scale(0.19,0.14,0.05);
+    guitarTop.render();
+
+    var guitarTop2 = new Cube(); 
+    guitarTop2.color = [0.82,0.67,0.49,1.0];
+    guitarTop2.matrix.translate(0.6, 0.29, -0.1);
+    //guitarTop2.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarTop2.matrix.scale(0.1,0.1,0.05);
+    guitarTop2.render();
+    
+    var guitarTop3 = new Cube(); 
+    guitarTop3.color = [0.82,0.67,0.49,1.0];
+    guitarTop3.matrix.translate(0.6, 0.37, -0.1);
+    //guitarTop2.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarTop3.matrix.scale(0.1,0.1,0.05);
+    guitarTop3.render();
+
+    var guitarNotch = new Cube(); 
+    guitarNotch.color = [0,0,0,1.0];
+    guitarNotch.matrix.translate(0.5, 0.35, -0.1);
+    guitarNotch.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarNotch.matrix.scale(0.02,0.05,0.01);
+    guitarNotch.render();
+
+    var guitarNotch2 = new Cube(); 
+    guitarNotch2.color = [0,0,0,1.0];
+    guitarNotch2.matrix.translate(0.53, 0.39, -0.1);
+    guitarNotch2.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarNotch2.matrix.scale(0.02,0.05,0.01);
+    guitarNotch2.render();
+
+    var guitarNotch3 = new Cube(); 
+    guitarNotch3.color = [0,0,0,1.0];
+    guitarNotch3.matrix.translate(0.57, 0.43, -0.1);
+    guitarNotch3.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarNotch3.matrix.scale(0.02,0.05,0.01);
+    guitarNotch3.render();
     
 
+    var guitarStrapShoulder = new Cube();
+    guitarStrapShoulder.color = [0.3,0.1,0.1,1.0];
+    guitarStrapShoulder.matrix.translate(0.25, 0.05, -0.05);
+    guitarStrapShoulder.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStrapShoulder.matrix.scale(0.05,0.05,0.3);
+    guitarStrapShoulder.render(); 
+
+    var guitarStrapBack = new Cube(); 
+    guitarStrapBack.color = [0.3,0.1,0.1,1.0];
+    guitarStrapBack.matrix.translate(-0.32, -0.42, 0.2);
+    guitarStrapBack.matrix.rotate(40,0,0,1); // rotate from 180 to 
+    guitarStrapBack.matrix.scale(0.75,0.05,0.05);
+    guitarStrapBack.render(); 
+
+    var guitarStrapFront = new Cube(); 
+    guitarStrapFront.color = [0.3,0.1,0.1,1.0];
+    guitarStrapFront.matrix.translate(-0.19, -0.27, -0.1);
+    guitarStrapFront.matrix.rotate(220,0,0,1); // rotate from 180 to 
+    guitarStrapFront.matrix.scale(0.2,0.05,0.05);
+    guitarStrapFront.render(); 
+
+    var guitarStrapSide = new Cube(); 
+    guitarStrapSide.color = [0.3,0.1,0.1,1.0];
+    guitarStrapSide.matrix.translate(-0.32, -0.43, -0.05);
+    guitarStrapSide.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStrapSide.matrix.scale(0.05,0.05,0.3);
+    guitarStrapSide.render(); 
+    
+    var guitarBase = new Cube(); 
+    guitarBase.color = [0.31,0.21,0.23,1.0];
+    guitarBase.matrix.translate(0, -0.4, -0.1);
+    guitarBase.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarBase.matrix.scale(0.27,0.27,0.05);
+    guitarBase.render(); 
+
+    var guitarPart1 = new Cube(); 
+    guitarPart1.color = [0.31,0.21,0.23,1.0];
+    guitarPart1.matrix.translate(0.2, -0.17, -0.1);
+    guitarPart1.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarPart1.matrix.scale(0.05,0.2,0.05);
+    guitarPart1.render(); 
+
+    var guitarPart2 = new Cube(); 
+    guitarPart2.color = [0.31,0.21,0.23,1.0];
+    guitarPart2.matrix.translate(0.18, -0.2, -0.1);
+    guitarPart2.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarPart2.matrix.scale(0.05,0.23,0.05);
+    guitarPart2.render(); 
+
+    var guitarCorner = new Cube(); 
+    guitarCorner.color = [0.31,0.21,0.23,1.0];
+    guitarCorner.matrix.translate(0.05, -0.1, -0.1);
+    guitarCorner.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarCorner.matrix.scale(0.15,0.15,0.05);
+    guitarCorner.render(); 
+
+    var guitarCornerExtra = new Cube(); 
+    guitarCornerExtra.color = [0.31,0.21,0.23,1.0];
+    guitarCornerExtra.matrix.translate(-0.05, -0.13, -0.1);
+    //guitarCornerExtra.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarCornerExtra.matrix.scale(0.15,0.15,0.05);
+    guitarCornerExtra.render(); 
+
+    var guitarCornerOther = new Cube(); 
+    guitarCornerOther.color = [0.31,0.21,0.23,1.0];
+    guitarCornerOther.matrix.translate(0.18, -0.22, -0.1);
+    guitarCornerOther.matrix.rotate(25,0,0,1); // rotate from 180 to 
+    guitarCornerOther.matrix.scale(0.15,0.08,0.05);
+    guitarCornerOther.render(); 
+
+    var guitarLowerPart1 = new Cube(); 
+    guitarLowerPart1.color = [0.31,0.21,0.23,1.0];
+    guitarLowerPart1.matrix.translate(-0.05, -0.41, -0.1);
+    guitarLowerPart1.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarLowerPart1.matrix.scale(0.09,0.22,0.05);
+    guitarLowerPart1.render(); 
+
+    var guitarLowerPart2 = new Cube(); 
+    guitarLowerPart2.color = [0.31,0.21,0.23,1.0];
+    guitarLowerPart2.matrix.translate(-0.09, -0.41, -0.1);
+    guitarLowerPart2.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarLowerPart2.matrix.scale(0.05,0.17,0.05);
+    guitarLowerPart2.render(); 
+
+    var guitarHole = new Cube(); 
+    guitarHole.color = [0.2,0.1,0.1,1.0];
+    guitarHole.matrix.translate(-0.02, -0.32, -0.11);
+    guitarHole.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarHole.matrix.scale(0.2,0.13,0.01);
+    guitarHole.render(); 
+
+    var guitarBand = new Cube(); 
+    guitarBand.color = [0.82,0.67,0.49,1.0];
+    guitarBand.matrix.translate(-0.03, -0.33, -0.115);
+    guitarBand.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarBand.matrix.scale(0.03,0.13,0.02);
+    guitarBand.render(); 
+
+
+    var guitarStringOneBottom = new Cube(); 
+    guitarStringOneBottom.color = [0,0,0,1.0];
+    guitarStringOneBottom.matrix.translate(-0.07, -0.27, -0.13); // shift y up and down +- .03
+    guitarStringOneBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringOneBottom.matrix.scale(0.9,0.01,0.05);
+    guitarStringOneBottom.render(); 
+
+    var guitarStringTwoBottom = new Cube(); 
+    guitarStringTwoBottom.color = [0,0,0,1.0];
+    guitarStringTwoBottom.matrix.translate(-0.06, -0.29, -0.13);
+    guitarStringTwoBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringTwoBottom.matrix.scale(0.9,0.01,0.05);
+    guitarStringTwoBottom.render(); 
+
+    var guitarStringThreeBottom = new Cube(); 
+    guitarStringThreeBottom.color = [0,0,0,1.0];
+    guitarStringThreeBottom.matrix.translate(-0.04, -0.3, -0.13);
+    guitarStringThreeBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringThreeBottom.matrix.scale(0.9,0.01,0.05);
+    guitarStringThreeBottom.render(); 
+
+
+    var leftArm = new Cube();
+    leftArm.color = [0.16,0.19,0.33,1.0];
+    leftArm.matrix.translate(-0.4, -0.18, -0.18);
+    leftArm.matrix.rotate(45,90,0,0); // rotate from 180 to 
+    leftArm.matrix.scale(0.1,0.28,0.1);
+    leftArm.render(); 
+
+    var leftArm2= new Cube();
+    leftArm2.color = [0.16,0.19,0.33,1.0];
+    leftArm2.matrix.translate(-0.3, -0.25, -0.16);
+    //leftArm.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    leftArm2.matrix.scale(0.22,0.1,0.1);
+    leftArm2.render(); 
+
+    var leftShoulder= new Cube();
+    leftShoulder.color = [0,0,0,1.0];
+    leftShoulder.matrix.translate(-0.32, -0.08, 0);
+    leftShoulder.matrix.rotate(40,0,0,1); // rotate from 180 to 
+    leftShoulder.matrix.scale(0.14,0.12,0.15);
+    leftShoulder.render(); 
+
+    var leftHand= new Cube();
+    leftHand.color = [0.35,0.35,0.35, 1.0];
+    leftHand.matrix.translate(-0.1, -0.25, -0.16);
+    //leftArm.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    leftHand.matrix.scale(0.15,0.1,0.1);
+    leftHand.render(); 
+
+    var rightArm = new Cube();
+    rightArm.color = [0.16,0.19,0.33,1.0];
+    rightArm.matrix.translate(0.45, -0.15, -.14);
+    rightArm.matrix.rotate(60,1,0,0);
+    rightArm.matrix.rotate(50,0,0,1); // rotate from 180 to
+    rightArm.matrix.rotate(30,0,1,0);
+    //rightArm.matrix.rotate(90,0,1,0);
+    rightArm.matrix.scale(0.12,0.3,0.1);
+    rightArm.render(); 
+
+    var rightArm2 = new Cube();
+    rightArm2.color = [0.16,0.19,0.33,1.0];
+    rightArm2.matrix.translate(0.45, -0.15, -.22);
+    rightArm2.matrix.rotate(45,0,0,1);
+    rightArm2.matrix.scale(0.12,0.21,0.1);
+    rightArm2.render(); 
+
+    var rightHand = new Cube();
+    rightHand.color = [0.35,0.35,0.35,1.0];
+    rightHand.matrix.translate(0.3, -0.01, -.22);
+    rightHand.matrix.rotate(45,0,0,1);
+    rightHand.matrix.scale(0.12,0.1,0.1);
+    rightHand.render(); 
+    
+    
+    var rightElbow = new Cube();
+    rightElbow.color = [0.16,0.19,0.33,1.0];
+    rightElbow.matrix.translate(0.48, -0.2, -.22);
+    rightElbow.matrix.rotate(45,0,0,1);
+    rightElbow.matrix.scale(0.13,0.09,0.17);
+    rightElbow.render(); 
+
+
+    var rightShoulder = new Cube();
+    rightShoulder.color = [0,0,0,1.0];
+    rightShoulder.matrix.translate(0.25, -0.08, 0);
+    rightShoulder.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    rightShoulder.matrix.scale(0.14,0.12,0.15);
+    rightShoulder.render(); 
+
+    // var rightArm2 = new Cube();
+    // rightArm2.color = [0.16,0.19,0.33,1.0];
+    // rightArm2.matrix.translate(0.3, -0.25, -0.23);
+    // //rightArm2.matrix.rotate(45,90,0,0); // rotate from 180 to 
+    // rightArm2.matrix.scale(0.1,0.3,0.1);
+    // rightArm2.render(); 
+    
+    
+    
+
+    // var leftArm2 = new Cube();
+    // leftArm2.color = [1,1,1,1.0];
+    // leftArm2.matrix.translate(-0.45, 0.05, 0.13);
+    // leftArm2.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    // leftArm2.matrix.scale(0.13,0.3,0.13);
+    // leftArm2.render(); 
+    
+    
+
+    // var guitarStringOneTop = new Cube(); 
+    // guitarStringOneTop.color = [0,0,0,1.0];
+    // guitarStringOneTop.matrix.translate(0.2, 0, -0.13);
+    // guitarStringOneTop.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    // guitarStringOneTop.matrix.scale(0.5,0.01,0.01);
+    // guitarStringOneTop.render(); 
+
+    // var guitarStringOneTop = new Cube(); 
+    // guitarStringOneTop.color = [0,0,0,1.0];
+    // guitarStringOneTop.matrix.translate(0.2, 0, -0.13);
+    // guitarStringOneTop.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    // guitarStringOneTop.matrix.scale(0.5,0.01,0.01);
+    // guitarStringOneTop.render();
+    // var blendLeftFoot = new Cube();
+    // leftFoot.color = [0.35,0.35,0.35,1.0];
+    // leftFoot.matrix.translate(-0.25, 0, 0.8);
+    // leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    // leftFoot.matrix.scale(0.24,0.5,0.5);
+    // leftFoot.render(); 
+    
+    
     // var body = new Cube();
     // body.color = [1.0,0.0,0.0,1.0];
     // body.matrix.translate(-0.25, -0.75, 0.0);
@@ -338,14 +703,7 @@ function renderAllShapes(){
     // // box.matrix.scale( 0.2,0.4,0.2);
     // box.render(); 
 
-    var K=10.0;
-    for (var i=1;i<K; i++) {
-        var c = new Cube();
-        c.matrix.translate(-0.8,9*i/K-1.0,0);
-        c.matrix.rotate(g_seconds*100, 1,1,1);
-        c.matrix.scale(0.1,0.5/K, 1.0/K);
-        c.render();
-    }
+   
 
     var duration = performance.now() - startTime;
     sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
