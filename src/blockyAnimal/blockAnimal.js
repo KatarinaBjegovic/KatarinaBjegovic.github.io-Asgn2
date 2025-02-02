@@ -67,18 +67,16 @@ function connectVariablesToGLSL(){
 
 
 let g_globalAngle = 0;
-let g_yellowAngle = 0;
-let g_purpleAnlge = 0;
-g_yellowAngleAnimation = false;
+let g_headAngle = 0;
+let g_strummingHandAnlge = 0;
+let g_handNoteAnlge = 0;
+let g_footAngle = 0
+let g_stringVibration = 0;
+let g_Animation = false;
 
 function addActionsForHTMLUI(){
-
-    document.getElementById('on').onclick = function() {g_yellowAngleAnimation = true; };
-    document.getElementById('off').onclick = function() {g_yellowAngleAnimation = false; };
-
-    document.getElementById("yellow_slider").addEventListener('mousemove', function(){g_yellowAngle = this.value; renderAllShapes();}); 
-    document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
-    document.getElementById("purple_slider").addEventListener('mousemove', function(){g_purpleAnlge= this.value; renderAllShapes();}); 
+    document.getElementById('on').onclick = function() {g_Animation = true; };
+    document.getElementById('off').onclick = function() {g_Animation = false; };
 
 }
 
@@ -86,17 +84,15 @@ function addActionsForHTMLUI(){
 
 
 function main() {
+    console.log("main function is running");
     setupWebGL();
     connectVariablesToGLSL();
     addActionsForHTMLUI();
 
-    // canvas.onmousedown = click;
-    // canvas.onmousemove = function(ev){ if (ev.buttons == 1) { click(ev) } };
-
     gl.clearColor(1.0, 0.75, 0.8, 1.0);
 
-    //gl.clear(gl.COLOR_BUFFER_BIT);
     renderAllShapes();
+
     requestAnimationFrame(tick);
 }
 
@@ -104,8 +100,9 @@ var g_startTime = performance.now()/1000.0;
 var g_seconds = performance.now()/1000.0 - g_startTime;
 
 function tick(){
+    console.log("tick running")
     g_seconds = performance.now()/1000.0-g_startTime;
-    //console.log(g_seconds );
+    console.log(g_seconds );
 
     updateAnimationAngles();
 
@@ -115,18 +112,32 @@ function tick(){
 }
 
 function convertCoordinatesEventToGL(ev){
-    var x = ev.clientX; // x coordinate of a mouse pointer 
-    var y = ev.clientY; // y coordinate of a mouse pointer 
+    var x = ev.clientX; 
+    var y = ev.clientY; 
     var rect = ev.target.getBoundingClientRect();
     x = ((x - rect.left) - canvas.width/2)/(canvas.width/2); 
     y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
     return([x,y]);
 }
 
-function updateAnimationAngles(){
-    if (g_yellowAngleAnimation) {
-        g_yellowAngle = (45*Math.sin(g_seconds));
-        g_purpleAnlge = (45*Math.sin(3*g_seconds));
+function updateAnimationAngles() {
+    if (g_Animation) {
+        // Head rocking back and forth (z-axis)
+        g_headAngle = 45 * Math.sin(3 * g_seconds);
+
+        // Left foot tapping (y-axis rotation, ±35 degrees)
+        g_footAngle = 35 * Math.sin(2 * g_seconds);
+
+        // Strumming hand moving up and down
+        g_strummingHandAngle = 30 * Math.sin(5 * g_seconds);
+
+        // Hand on guitar neck moving slightly to simulate playing
+        g_handNoteAngle = 10 * Math.sin(4 * g_seconds);
+
+        // Guitar strings vibrating slightly
+        g_stringVibration = 5 * Math.sin(20 * g_seconds);
+    } else {
+        console.log("got here"); 
     }
 }
 
@@ -139,15 +150,17 @@ function renderAllShapes(){
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT); 
-    //drawTriangle3D([-1.0,0.0,0.0,  -0.5,-1.0,0.0,  0.0,0.0,0.0])
 
 
 
+// head should rock back and forth in the z direction... in beat 
     
     var head = new Cube();
     head.color = [0.35,0.35,0.35,1.0];
     head.matrix.translate(-.2, 0.2, 0);
-    //body.matrix.rotate(-5,1,0,0);
+    
+    head.matrix.rotate(g_headAngle, 0,0,1);
+
     head.matrix.scale(0.4,0.4,0.2);
     head.render();
 
@@ -286,6 +299,11 @@ function renderAllShapes(){
       // Rotate 45 degrees around the Z-axis
     septumLeft2.render();
 
+// end of rocking head.... 
+
+
+
+    
     var neck = new Cube();
     neck.color = [0.35,0.35,0.35,1.0];
     neck.matrix.translate(-.125, 0.14, 0);
@@ -364,22 +382,20 @@ function renderAllShapes(){
     blendRightLeg.matrix.scale(0.24,0.05,0.2);
     blendRightLeg.render();
 
+
+// tap left foot in beat +- 35 degrees
+    
     var leftFoot = new Cube();
-    leftFoot.color = [0.35,0.35,0.35,1.0];
+    leftFoot.color = [0.3,0.3,0.3, 1.0];
     leftFoot.matrix.translate(-0.25, -0.75, 0.01);
     leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
     leftFoot.matrix.scale(0.24,0.1,0.15);
     leftFoot.render(); 
 
-    // var blendLeftFoot = new Cube();
-    // leftFoot.color = [0.35,0.35,0.35,1.0];
-    // leftFoot.matrix.translate(-0.25, 0, 0.8);
-    // leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
-    // leftFoot.matrix.scale(0.24,0.5,0.5);
-    // leftFoot.render(); 
+// end of parts for the foot tap animation
 
     var rightFoot = new Cube();
-    rightFoot.color = [0.35,0.35,0.35,1.0];
+    rightFoot.color = [0.3,0.3,0.3,1.0];
     rightFoot.matrix.translate(0.01, -0.75, 0.01);
     rightFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
     rightFoot.matrix.scale(0.24,0.1,0.15);
@@ -536,28 +552,30 @@ function renderAllShapes(){
     guitarBand.matrix.scale(0.03,0.13,0.02);
     guitarBand.render(); 
 
-
+// move these 3 strings up and down slightly in the y direction 
+    
     var guitarStringOneBottom = new Cube(); 
     guitarStringOneBottom.color = [0,0,0,1.0];
     guitarStringOneBottom.matrix.translate(-0.07, -0.27, -0.13); // shift y up and down +- .03
-    guitarStringOneBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringOneBottom.matrix.rotate(45,0,0,1); 
     guitarStringOneBottom.matrix.scale(0.9,0.01,0.05);
     guitarStringOneBottom.render(); 
 
     var guitarStringTwoBottom = new Cube(); 
     guitarStringTwoBottom.color = [0,0,0,1.0];
     guitarStringTwoBottom.matrix.translate(-0.06, -0.29, -0.13);
-    guitarStringTwoBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringTwoBottom.matrix.rotate(45,0,0,1); 
     guitarStringTwoBottom.matrix.scale(0.9,0.01,0.05);
     guitarStringTwoBottom.render(); 
 
     var guitarStringThreeBottom = new Cube(); 
     guitarStringThreeBottom.color = [0,0,0,1.0];
     guitarStringThreeBottom.matrix.translate(-0.04, -0.3, -0.13);
-    guitarStringThreeBottom.matrix.rotate(45,0,0,1); // rotate from 180 to 
+    guitarStringThreeBottom.matrix.rotate(45,0,0,1); 
     guitarStringThreeBottom.matrix.scale(0.9,0.01,0.05);
     guitarStringThreeBottom.render(); 
 
+// end of the parts for this animation..
 
     var leftArm = new Cube();
     leftArm.color = [0.16,0.19,0.33,1.0];
@@ -566,13 +584,6 @@ function renderAllShapes(){
     leftArm.matrix.scale(0.1,0.28,0.1);
     leftArm.render(); 
 
-    var leftArm2= new Cube();
-    leftArm2.color = [0.16,0.19,0.33,1.0];
-    leftArm2.matrix.translate(-0.3, -0.25, -0.16);
-    //leftArm.matrix.rotate(180,90,0,0); // rotate from 180 to 
-    leftArm2.matrix.scale(0.22,0.1,0.1);
-    leftArm2.render(); 
-
     var leftShoulder= new Cube();
     leftShoulder.color = [0,0,0,1.0];
     leftShoulder.matrix.translate(-0.32, -0.08, 0);
@@ -580,13 +591,24 @@ function renderAllShapes(){
     leftShoulder.matrix.scale(0.14,0.12,0.15);
     leftShoulder.render(); 
 
+// strum the arm and hand togehter about +- 35 degreese in the x direction 
+
+    var leftArm2= new Cube();
+    leftArm2.color = [0.16,0.19,0.33,1.0];
+    leftArm2.matrix.translate(-0.3, -0.25, -0.16);
+    //leftArm.matrix.rotate(180,90,0,0); // rotate from 180 to 
+    leftArm2.matrix.scale(0.22,0.1,0.1);
+    leftArm2.render(); 
+
     var leftHand= new Cube();
     leftHand.color = [0.35,0.35,0.35, 1.0];
     leftHand.matrix.translate(-0.1, -0.25, -0.16);
     //leftArm.matrix.rotate(180,90,0,0); // rotate from 180 to 
     leftHand.matrix.scale(0.15,0.1,0.1);
     leftHand.render(); 
+// end of parts for this animation....
 
+    
     var rightArm = new Cube();
     rightArm.color = [0.16,0.19,0.33,1.0];
     rightArm.matrix.translate(0.45, -0.15, -.14);
@@ -597,6 +619,7 @@ function renderAllShapes(){
     rightArm.matrix.scale(0.12,0.3,0.1);
     rightArm.render(); 
 
+//  strum the arm and hand togehter about + 35 degreese in the x direction 
     var rightArm2 = new Cube();
     rightArm2.color = [0.16,0.19,0.33,1.0];
     rightArm2.matrix.translate(0.45, -0.15, -.22);
@@ -611,6 +634,8 @@ function renderAllShapes(){
     rightHand.matrix.scale(0.12,0.1,0.1);
     rightHand.render(); 
     
+// end of parts for animation 
+
     
     var rightElbow = new Cube();
     rightElbow.color = [0.16,0.19,0.33,1.0];
@@ -626,87 +651,10 @@ function renderAllShapes(){
     rightShoulder.matrix.rotate(45,0,0,1); // rotate from 180 to 
     rightShoulder.matrix.scale(0.14,0.12,0.15);
     rightShoulder.render(); 
-
-    // var rightArm2 = new Cube();
-    // rightArm2.color = [0.16,0.19,0.33,1.0];
-    // rightArm2.matrix.translate(0.3, -0.25, -0.23);
-    // //rightArm2.matrix.rotate(45,90,0,0); // rotate from 180 to 
-    // rightArm2.matrix.scale(0.1,0.3,0.1);
-    // rightArm2.render(); 
-    
-    
-    
-
-    // var leftArm2 = new Cube();
-    // leftArm2.color = [1,1,1,1.0];
-    // leftArm2.matrix.translate(-0.45, 0.05, 0.13);
-    // leftArm2.matrix.rotate(180,90,0,0); // rotate from 180 to 
-    // leftArm2.matrix.scale(0.13,0.3,0.13);
-    // leftArm2.render(); 
-    
-    
-
-    // var guitarStringOneTop = new Cube(); 
-    // guitarStringOneTop.color = [0,0,0,1.0];
-    // guitarStringOneTop.matrix.translate(0.2, 0, -0.13);
-    // guitarStringOneTop.matrix.rotate(45,0,0,1); // rotate from 180 to 
-    // guitarStringOneTop.matrix.scale(0.5,0.01,0.01);
-    // guitarStringOneTop.render(); 
-
-    // var guitarStringOneTop = new Cube(); 
-    // guitarStringOneTop.color = [0,0,0,1.0];
-    // guitarStringOneTop.matrix.translate(0.2, 0, -0.13);
-    // guitarStringOneTop.matrix.rotate(45,0,0,1); // rotate from 180 to 
-    // guitarStringOneTop.matrix.scale(0.5,0.01,0.01);
-    // guitarStringOneTop.render();
-    // var blendLeftFoot = new Cube();
-    // leftFoot.color = [0.35,0.35,0.35,1.0];
-    // leftFoot.matrix.translate(-0.25, 0, 0.8);
-    // leftFoot.matrix.rotate(180,90,0,0); // rotate from 180 to 
-    // leftFoot.matrix.scale(0.24,0.5,0.5);
-    // leftFoot.render(); 
-    
-    
-    // var body = new Cube();
-    // body.color = [1.0,0.0,0.0,1.0];
-    // body.matrix.translate(-0.25, -0.75, 0.0);
-    // body.matrix.rotate(-5,1,0,0);
-    // body.matrix.scale(0.5,0.3,0.5);
-    // body.render();
-
-    // var leftArm = new Cube();
-    // leftArm.color = [1,1,0,1];
-    // leftArm.matrix.setTranslate(0,-0.5,0.0);
-    // leftArm.matrix.rotate(-5,1,0,0);
-
-    // leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
-
-    // // if (g_yellowAngleAnimation){
-    // //     leftArm.matrix.rotate(4*Math.sin(g_seconds), 0,0,1);
-    // // } else {
-    // //     
-    // // }
-    // var yellowCoordinatesMat = new Matrix4(leftArm.matrix);
-    // leftArm.matrix.scale(0.25,0.7,0.5);
-    // leftArm.matrix.translate(-0.5,0,0);
-    // leftArm.render();
-
-
-    // var box = new Cube();
-    // box.color = [1,0,1,1];
-    // box.matrix = yellowCoordinatesMat;
-    // box.matrix.translate(0,0.65,0);
-    // box.matrix.rotate(g_purpleAnlge,0,0,1);
-    // box.matrix.scale(0.3,0.3,0.3);
-    // box.matrix.translate(-0.5,0,-0.001);
-    // // box.matrix.rotate(-30,1,0,0);
-    // // box.matrix.scale( 0.2,0.4,0.2);
-    // box.render(); 
-
    
 
     var duration = performance.now() - startTime;
-    sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
+    //sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
 }
 
 function sendTextToHTML(text, html_ID){
