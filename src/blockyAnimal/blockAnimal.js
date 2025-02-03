@@ -64,7 +64,9 @@ function connectVariablesToGLSL(){
 }
 
 
-let g_globalAngle = 0;
+let g_globalAngleX = 0;
+let g_globalAngleY = 0;
+let g_globalAngleZ = 0;
 let g_footAngle = 0;
 let g_strummingHandAngle = 0;
 let g_noteHandAngle = 0;
@@ -80,7 +82,8 @@ let g_shoulderAngleSldier = 0; // [0,50]
 
 let g_isDragging = false;  // Flag to track if the mouse is being dragged
 let g_initialX = 0;        // Initial X position when the mouse is clicked
-let g_initialAngle = 0;    // Initial angle when the mouse is clicked
+let g_initialY = 0;
+//let g_initialAngle = 0;    // Initial angle when the mouse is clicked
 
 
 let g_animation = false;
@@ -122,7 +125,10 @@ function addActionsForHTMLUI() {
     };
 
     // Slider events
-    document.getElementById("angle_slider").addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+    document.getElementById("angle_slider").addEventListener('mousemove', function() { 
+        g_globalAngleX = this.value; 
+        renderAllShapes(); 
+    });
     document.getElementById("hand").addEventListener('mousemove', function() { g_leftHandSlider = this.value; renderAllShapes(); });
     document.getElementById("shoulder").addEventListener('mousemove', function() { g_shoulderAngleSldier = this.value; renderAllShapes(); });
     document.getElementById("arm").addEventListener('mousemove', function() { g_leftArmSlider = this.value; renderAllShapes(); });
@@ -146,27 +152,41 @@ function main() {
         } 
     });
 
-
     // Handle mouse interactions to control global rotation
     canvas.addEventListener('mousedown', function(ev) {
         g_isDragging = true;
         // Get the initial mouse X position and corresponding angle
         g_initialX = ev.clientX;
-        g_initialAngle = g_globalAngle;
+        g_initialY = ev.clientY;
     });
 
     canvas.addEventListener('mousemove', function(ev) {
         if (g_isDragging) {
-            // Calculate the change in mouse position
+            // Calculate the change in mouse position (delta)
             const deltaX = ev.clientX - g_initialX;
-            // Adjust the global angle based on the mouse movement
-            g_globalAngle = g_initialAngle + deltaX * 0.2;  // 0.2 is a scaling factor to control sensitivity
-            renderAllShapes();  // Re-render the shapes with updated angle
+            const deltaY = ev.clientY - g_initialY;
+
+            // Update rotation angles based on the mouse movement
+            g_globalAngleY += deltaX * 0.2;  // Adjust sensitivity with 0.2
+            g_globalAngleX -= deltaY * 0.2;  // Adjust sensitivity with 0.2
+
+            // Optional: Limit the rotation on the X-axis to prevent it from going beyond 90 degrees
+            g_globalAngleX = Math.max(Math.min(g_globalAngleX, 90), -90);
+
+            // Update initial positions for the next move calculation
+            g_initialX = ev.clientX;
+            g_initialY = ev.clientY;
+
+            renderAllShapes();  // Re-render the object with updated angles
         }
     });
 
     canvas.addEventListener('mouseup', function(ev) {
         g_isDragging = false;  // Stop dragging when the mouse is released
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+        g_isDragging = false;  // Also stop dragging if the mouse leaves the canvas
     });
 
 
