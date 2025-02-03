@@ -269,9 +269,16 @@ function renderAllShapes(){
 
     var startTime = performance.now();
 
-    var globalRotMat = new Matrix4().rotate(g_globalAngle, 0,1,0);
-    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements);
+    // Combine rotations around the X, Y, and Z axes
+    var rotationMatrix = new Matrix4();
+    rotationMatrix.rotate(g_globalAngleX, 1, 0, 0);  // Rotate around X-axis
+    rotationMatrix.rotate(g_globalAngleY, 0, 1, 0);  // Rotate around Y-axis
+    rotationMatrix.rotate(g_globalAngleZ, 0, 0, 1);  // Rotate around Z-axis
 
+    // Send the combined rotation matrix to the shader
+    gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, rotationMatrix.elements);
+
+    // Clear the screen and render the object
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.clear(gl.COLOR_BUFFER_BIT); 
 
