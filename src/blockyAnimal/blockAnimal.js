@@ -73,6 +73,11 @@ let g_noteHandAngle = 0;
 let g_headAngle = 0;
 let g_stringHeight = 0;
 
+let g_leftHandSlider = 0; //[-35,35]
+//g_strummingHandAngle // [-40,40]
+let g_leftArmSlider = 0; //(0,20)
+let g_shoulderAngleSldier = 0; // [0,50]
+
 let g_animation = false;
 
 function addActionsForHTMLUI(){
@@ -81,6 +86,14 @@ function addActionsForHTMLUI(){
     document.getElementById('off').onclick = function() {g_animation = false; };
 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
+
+    document.getElementById("hand").addEventListener('mousemove', function(){g_leftHandSlider = this.value; renderAllShapes();}); 
+
+    document.getElementById("shoulder").addEventListener('mousemove', function(){g_shoulderAngleSldier = this.value; renderAllShapes();}); 
+
+    document.getElementById("arm").addEventListener('mousemove', function(){g_leftArmSlider = this.value; renderAllShapes();}); 
+
+    document.getElementById("forearm").addEventListener('mousemove', function(){g_strummingHandAngle = this.value; renderAllShapes();}); 
 
 }
 
@@ -105,9 +118,7 @@ var g_seconds = performance.now()/1000.0 - g_startTime;
 function tick(){
     g_seconds = performance.now()/1000.0-g_startTime;
     
-    console.log("start");
     updateAnimationAngles();
-    console.log("passed");
 
     renderAllShapes();
 
@@ -129,12 +140,12 @@ let g_stringHeight = 0;
 
 */
 function updateAnimationAngles(){
-    console.log("here");
     if (g_animation) {
-        g_headAngle = (45 * Math.sin(g_seconds));
-        g_footAngle = (40 * Math.sin(g_seconds));
-        g_noteHandAngle = (35 * Math.sin(g_seconds));
-        g_strummingHandAngle = (20 * Math.sin(g_seconds));
+        g_headAngle = (22.5 * (Math.sin(3*g_seconds) + 1));
+        g_footAngle = (10 * (Math.sin(3*g_seconds) + 1));
+        g_noteHandAngle = (17.5 * (Math.sin(g_seconds) + 1));
+        g_strummingHandAngle = (10 * (Math.sin(2.5 * g_seconds) + 1));
+        g_stringHeight = 0.02 * (Math.sin(2.5 * g_seconds) + 1);
     }
 }
 
@@ -154,6 +165,7 @@ function renderAllShapes(){
     var head = new Cube();
     head.color = [0.35,0.35,0.35,1.0];
     head.matrix.translate(-.2, 0.2, 0);
+    head.matrix.rotate(-45,1,0,0);
     head.matrix.rotate(g_headAngle,1,0,0);
     headMatrix = new Matrix4(head.matrix);
     head.matrix.scale(0.4,0.4,0.2);
@@ -531,7 +543,7 @@ function renderAllShapes(){
     var guitarStringOne = new Cube(); 
     guitarStringOne.color = [0,0,0,1.0];
     guitarStringOne.matrix.translate(-0.07, -0.27, -0.13); 
-    //guitarStringOne.matrix.translate(0,-0.02,0); // shift y up and down +- .03
+    guitarStringOne.matrix.translate(0,g_stringHeight,0); // shift y up and down +- .03
     guitarStringOne.matrix.rotate(45,0,0,1);
     var guitarStringMatrix = new Matrix4(guitarStringOne.matrix);  
     guitarStringOne.matrix.scale(0.9,0.01,0.05);
@@ -556,24 +568,38 @@ function renderAllShapes(){
     var leftShoulder= new Cube();
     leftShoulder.color = [0,0,0,1.0];
     leftShoulder.matrix.translate(-0.32, -0.08, 0);
-    leftShoulder.matrix.rotate(40,0,0,1); 
+    leftShoulder.matrix.rotate(g_shoulderAngleSldier,1,0,0); // g_shoulderAngle (0, 50)
+    leftShoulder.matrix.rotate(35,0,0,1); 
+    var leftShoulderMatrix = new Matrix4(leftShoulder.matrix);
     leftShoulder.matrix.scale(0.14,0.12,0.15);
     leftShoulder.render(); 
 
     var leftArm = new Cube();
     leftArm.color = [0.16,0.19,0.33,1.0];
-    leftArm.matrix.translate(-0.4, -0.18, -0.18);
-    leftArm.matrix.rotate(45,90,0,0); 
-    leftArm.matrix.scale(0.1,0.28,0.1);
+    leftArm.matrix = new Matrix4(leftShoulderMatrix);
+    leftArm.matrix.translate(-0.095, -0.09, -0.2);
+    //leftArm.matrix.rotate(180,0,0,0);
+    leftArm.matrix.rotate(-30,0,0,1);
+    leftArm.matrix.rotate(45,1,0,0); 
+    leftArm.matrix.rotate(g_leftArmSlider, 1,0,0);
+    //leftArm.matrix.rotate(20,0,0,0);
+    //leftArm.matrix.rotate(40,0,0,1);
+    var leftArmMatrix = new Matrix4(leftArm.matrix);
+    leftArm.matrix.scale(0.1,0.35,0.1);
     leftArm.render(); 
 
 
 // start of strumming hand animation parts 
     var leftForearm= new Cube();
     leftForearm.color = [0.16,0.19,0.33,1.0];
-    leftForearm.matrix.translate(-0.33, -0.25, -0.16);
-    leftForearm.matrix.rotate(-10,0,0,1);
-    leftForearm.matrix.rotate(g_strummingHandAngle,0,0,1); // 0->20 degrees
+    leftForearm.matrix = new Matrix4(leftArmMatrix);
+    leftForearm.matrix.rotate(-45,1,0,0); 
+    leftForearm.matrix.translate(0.04, 0.21, -0.03);
+    leftForearm.matrix.translate(0, -0.3, 0);
+    //leftForearm.matrix.rotate(-1,0,1,0);
+    //leftForearm.matrix.rotate(-45,1,0,0); 
+    //leftForearm.matrix.rotate(-5,0,0,1);
+    leftForearm.matrix.rotate(g_strummingHandAngle,0,0,1); // 0->20 degrees or slider 
     var leftForearmMatrix = new Matrix4(leftForearm.matrix);
     leftForearm.matrix.scale(0.25,0.1,0.1);
     leftForearm.render(); 
@@ -582,7 +608,8 @@ function renderAllShapes(){
     leftHand.color = [0.35,0.35,0.35, 1.0];
     leftHand.matrix = new Matrix4(leftForearmMatrix);
     leftHand.matrix.translate(0.23, 0, 0);
-    leftHand.matrix.scale(0.15,0.1,0.1);
+    leftHand.matrix.rotate(g_leftHandSlider,0,0,1); // g_leftHandSlider (35, -35)
+    leftHand.matrix.scale(0.15, 0.1,0.1);
     leftHand.render(); 
     
 // end of strumming hand animation parts 
@@ -632,6 +659,10 @@ function renderAllShapes(){
     rightHand.render(); 
 
 // end of note playing hand animation parts
+
+
+
+
 
     var duration = performance.now() - startTime;
     //sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
