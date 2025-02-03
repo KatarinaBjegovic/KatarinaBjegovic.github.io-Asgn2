@@ -261,7 +261,7 @@ function renderAllShapes(){
     var head = new Cube();
     head.color = [0.35,0.35,0.35,1.0];
     head.matrix.translate(-.2, 0.2, 0);
-    head.matrix.rotate(-55,1,0,0);
+    head.matrix.rotate(-45,1,0,0);
     head.matrix.rotate(g_headAngle,1,0,0);
     headMatrix = new Matrix4(head.matrix);
     head.matrix.scale(0.4,0.4,0.2);
