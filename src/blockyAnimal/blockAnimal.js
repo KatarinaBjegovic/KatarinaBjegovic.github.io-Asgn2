@@ -104,8 +104,10 @@ var g_seconds = performance.now()/1000.0 - g_startTime;
 
 function tick(){
     g_seconds = performance.now()/1000.0-g_startTime;
-
+    
+    console.log("start");
     updateAnimationAngles();
+    console.log("passed");
 
     renderAllShapes();
 
@@ -127,7 +129,8 @@ let g_stringHeight = 0;
 
 */
 function updateAnimationAngles(){
-    if (g_yellowAngleAnimation) {
+    console.log("here");
+    if (g_animation) {
         g_headAngle = (45 * Math.sin(g_seconds));
         g_footAngle = (40 * Math.sin(g_seconds));
         g_noteHandAngle = (35 * Math.sin(g_seconds));
