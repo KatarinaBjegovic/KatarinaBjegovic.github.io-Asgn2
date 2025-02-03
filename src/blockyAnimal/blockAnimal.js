@@ -286,7 +286,7 @@ function renderAllShapes(){
 
 // head animation  parts 
     var head = new Cube();
-    head.color = [0.35,0.35,0.35,1.0];
+    head.color = [0.45,0.45,0.45,1.0];
     head.matrix.translate(-.2, 0.2, 0);
     head.matrix.rotate(-45,1,0,0);
     head.matrix.rotate(g_headAngle,1,0,0);
@@ -351,28 +351,28 @@ function renderAllShapes(){
     noseBottom.render();
 
     var earLeft = new Cube();
-    earLeft.color = [0.35,0.35,0.35,1.0];
+    earLeft.color = [0.45,0.45,0.45,1.0];
     earLeft.matrix = new Matrix4(headMatrix);
     earLeft.matrix.translate(-0.05, 0.35, 0);
     earLeft.matrix.scale(0.1,0.1,0.2);
     earLeft.render();
 
     var earLeft2 = new Cube();
-    earLeft2.color = [0.35,0.35,0.35,1.0];
+    earLeft2.color = [0.45,0.45,0.45,1.0];
     earLeft2.matrix = new Matrix4(headMatrix);
     earLeft2.matrix.translate(-0.05, 0.33, 0);
     earLeft2.matrix.scale(0.1,0.1,0.2);
     earLeft2.render();
 
     var earRight = new Cube();
-    earRight.color = [0.35,0.35,0.35,1.0];
+    earRight.color = [0.45,0.45,0.45,1.0];
     earRight.matrix = new Matrix4(headMatrix);
     earRight.matrix.translate(.35, 0.35, 0);
     earRight.matrix.scale(0.1,0.1,0.2);
     earRight.render();
 
     var earRight2 = new Cube();
-    earRight2.color = [0.35,0.35,0.35,1.0];
+    earRight2.color = [0.45,0.45,0.45,1.0];
     earRight2.matrix = new Matrix4(headMatrix);
     earRight2.matrix.translate(.35, 0.33, 0);
     earRight2.matrix.scale(0.1,0.1,0.2);
@@ -430,13 +430,13 @@ function renderAllShapes(){
 
 
     var neck = new Cube();
-    neck.color = [0.35,0.35,0.35,1.0];
+    neck.color = [0.45,0.45,0.45,1.0];
     neck.matrix.translate(-.125, 0.14, 0);
     neck.matrix.scale(0.25,0.05,0.2);
     neck.render();
 
     var body = new Cube();
-    body.color = [0.35,0.35,0.35,1.0];
+    body.color = [0.45,0.45,0.45,1.0];
     body.matrix.translate(-0.25, -0.55, 0);
     body.matrix.scale(0.5,0.68,0.2);
     body.render();
@@ -472,33 +472,33 @@ function renderAllShapes(){
     shirt5.render();
 
     var leftLeg = new Cube();
-    leftLeg.color = [0.35,0.35,0.35,1.0];
+    leftLeg.color = [0.45,0.45,0.45,1.0];
     leftLeg.matrix.translate(-0.25, -0.85, -0.048);
     leftLeg.matrix.scale(0.24,0.38,0.25);
     leftLeg.render();
 
     var blendLeftLeg = new Cube();
-    blendLeftLeg.color = [0.35,0.35,0.35,1.0];
+    blendLeftLeg.color = [0.45,0.45,0.45,1.0];
     blendLeftLeg.matrix.translate(-0.25, -0.48, -0.03);
     blendLeftLeg.matrix.scale(0.24,0.05,0.2);
     blendLeftLeg.render();
 
 
     var rightLeg = new Cube();
-    rightLeg.color = [0.35,0.35,0.35,1.0];
+    rightLeg.color = [0.45,0.45,0.45,1.0];
     rightLeg.matrix.translate(0.01, -0.85, -0.048);
     rightLeg.matrix.scale(0.24,0.38,0.25);
     rightLeg.render();
 
     var blendRightLeg = new Cube();
-    blendRightLeg.color = [0.35,0.35,0.35,1.0];
+    blendRightLeg.color = [0.45,0.45,0.45,1.0];
     blendRightLeg.matrix.translate(0.01, -0.48, -0.03);
     blendRightLeg.matrix.scale(0.24,0.05,0.2);
     blendRightLeg.render();
 
 // animation parts for foot tapping
     var leftFoot = new Cube();
-    leftFoot.color = [0.25,0.25,0.25,1.0];
+    leftFoot.color = [0.35,0.35,0.35,1.0];
     leftFoot.matrix.translate(-0.25, -0.75, 0.01);
     leftFoot.matrix.rotate(180,1,0,0); 
     leftFoot.matrix.rotate(g_footAngle,1,0,0); //rotate from 0->40
@@ -507,7 +507,7 @@ function renderAllShapes(){
 // end of parts for foot tapping
 
     var rightFoot = new Cube();
-    rightFoot.color = [0.25,0.25,0.25,1.0];
+    rightFoot.color = [0.35,0.35,0.35,1.0];
     rightFoot.matrix.translate(0.01, -0.75, 0.01);
     rightFoot.matrix.rotate(180,90,0,0); 
     rightFoot.matrix.scale(0.24,0.1,0.15);
@@ -727,7 +727,7 @@ function renderAllShapes(){
     leftForearm.render(); 
 
     var leftHand= new Cube();
-    leftHand.color = [0.35,0.35,0.35, 1.0];
+    leftHand.color = [0.45,0.45,0.45, 1.0];
     leftHand.matrix = new Matrix4(leftForearmMatrix);
     leftHand.matrix.translate(0.23, 0, 0);
     leftHand.matrix.rotate(g_leftHandSlider,0,0,1); // g_leftHandSlider (35, -35)
@@ -774,7 +774,7 @@ function renderAllShapes(){
     rightForearm.render(); 
 
     var rightHand = new Cube();
-    rightHand.color = [0.35,0.35,0.35,1.0];
+    rightHand.color = [0.45,0.45,0.45,1.0];
     rightHand.matrix = new Matrix4(rightForearmMatrix);
     rightHand.matrix.translate(0, 0.20, 0);
     rightHand.matrix.scale(0.12,0.12,0.1);
