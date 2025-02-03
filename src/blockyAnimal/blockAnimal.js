@@ -135,7 +135,7 @@ function main() {
     connectVariablesToGLSL();
     addActionsForHTMLUI();
 
-    gl.clearColor(1.0, 0.75, 0.8, 1.0);
+    gl.clearColor(0.75, 0.84, 0.9, 1.0);
 
     //gl.clear(gl.COLOR_BUFFER_BIT);
 
