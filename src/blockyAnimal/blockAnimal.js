@@ -21,8 +21,6 @@ let u_size;
 let u_ModelMatrix;
 let u_GlobalRotateMatrix;
 
-
-
 function setupWebGL(){
     canvas = document.getElementById('webgl');
     //gl = getWebGLContext(canvas); 
@@ -87,23 +85,136 @@ let g_initialAngle = 0;    // Initial angle when the mouse is clicked
 
 let g_animation = false;
 
-function addActionsForHTMLUI(){
+let audioSLOW = new Audio('music/CSD.mp3');
+let audioFAST = new Audio('music/BFMM.mp3');
+let isPlayingSLOW = false;
+let isPlayingFAST = false;
 
-    document.getElementById('on').onclick = function() {g_animation = true; };
-    document.getElementById('off').onclick = function() {g_animation = false; g_poked = false; };
+function addActionsForHTMLUI() {
+    // Play slow audio when "Play" button is clicked and we are not "poked"
+    document.getElementById('on').onclick = function() {
+        g_animation = true;
+        if (!isPlayingSLOW) {
+            audioSLOW.play();
+            isPlayingSLOW = true;
+            console.log('Playing slow music');
+        }
+    };
 
-    document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
+    // Stop both audio when "Pause" button is clicked
+    document.getElementById('off').onclick = function() {
+        g_animation = false;
+        g_poked = false; // Reset poke state
 
-    document.getElementById("hand").addEventListener('mousemove', function(){ g_leftHandSlider = this.value; renderAllShapes();}); 
+        if (isPlayingSLOW) {
+            audioSLOW.pause();
+            audioSLOW.currentTime = 0;  // Reset to the start
+            isPlayingSLOW = false;
+            console.log('Paused slow music');
+        }
+        
+        if (isPlayingFAST) {
+            audioFAST.pause();
+            audioFAST.currentTime = 0;  // Reset to the start
+            isPlayingFAST = false;
+            console.log('Paused fast music');
+        }
+    };
 
-    document.getElementById("shoulder").addEventListener('mousemove', function(){g_shoulderAngleSldier = this.value; renderAllShapes();}); 
-
-    document.getElementById("arm").addEventListener('mousemove', function(){g_leftArmSlider = this.value; renderAllShapes();}); 
-
-    document.getElementById("forearm").addEventListener('mousemove', function(){g_strummingHandAngle = this.value; renderAllShapes();}); 
-
+    // Slider events
+    document.getElementById("angle_slider").addEventListener('mousemove', function() { g_globalAngle = this.value; renderAllShapes(); });
+    document.getElementById("hand").addEventListener('mousemove', function() { g_leftHandSlider = this.value; renderAllShapes(); });
+    document.getElementById("shoulder").addEventListener('mousemove', function() { g_shoulderAngleSldier = this.value; renderAllShapes(); });
+    document.getElementById("arm").addEventListener('mousemove', function() { g_leftArmSlider = this.value; renderAllShapes(); });
+    document.getElementById("forearm").addEventListener('mousemove', function() { g_strummingHandAngle = this.value; renderAllShapes(); });
 }
 
+function main() {
+    setupWebGL();
+    connectVariablesToGLSL();
+    addActionsForHTMLUI();
+    gl.clearColor(1.0, 0.75, 0.8, 1.0);
+
+    canvas.addEventListener('click', function(ev) {
+        if (ev.shiftKey) {
+            g_poked = true;
+        }
+    });
+
+    // Handle mouse interactions to control global rotation
+    canvas.addEventListener('mousedown', function(ev) {
+        g_isDragging = true;
+        g_initialX = ev.clientX;
+        g_initialAngle = g_globalAngle;
+    });
+
+    canvas.addEventListener('mousemove', function(ev) {
+        if (g_isDragging) {
+            const deltaX = ev.clientX - g_initialX;
+            g_globalAngle = g_initialAngle + deltaX * 0.2;
+            renderAllShapes();
+        }
+    });
+
+    canvas.addEventListener('mouseup', function(ev) {
+        g_isDragging = false;
+    });
+
+    renderAllShapes();
+    requestAnimationFrame(tick);
+}
+
+var g_startTime = performance.now() / 1000.0;
+var g_seconds = performance.now() / 1000.0 - g_startTime;
+
+function tick() {
+    g_seconds = performance.now() / 1000.0 - g_startTime;
+
+    if (g_poked == true) {
+        updateAnimationAnglesPOKE();
+        if (!isPlayingFAST) {
+            // Start fast audio when poked and slow audio is not playing
+            if (isPlayingSLOW) {
+                audioSLOW.pause();
+                isPlayingSLOW = false;
+                console.log('Stopped slow music');
+            }
+            audioFAST.play();
+            isPlayingFAST = true;
+            console.log('Playing fast music');
+        }
+    } else {
+        updateAnimationAngles();
+        if (!isPlayingSLOW) {
+            // Start slow audio when poked is not true
+            if (isPlayingFAST) {
+                audioFAST.pause();
+                isPlayingFAST = false;
+                console.log('Stopped fast music');
+            }
+            audioSLOW.play();
+            isPlayingSLOW = true;
+            console.log('Playing slow music');
+        }
+    }
+
+    renderAllShapes();
+    requestAnimationFrame(tick);
+}
+
+function updateAnimationAngles() {
+    if (g_animation) {
+        g_headAngle = (22.5 * (Math.sin(3 * g_seconds) + 1));
+        g_footAngle = (10 * (Math.sin(3 * g_seconds) + 1));
+        g_noteHandAngle = (17.5 * (Math.sin(g_seconds) + 1));
+        g_strummingHandAngle = (10 * (Math.sin(2.5 * g_seconds) + 1));
+        g_stringHeight = 0.02 * (Math.sin(2.5 * g_seconds) + 1);
+    }
+}
+
+function updateAnimationAnglesPOKE() {
+    if (g_animation) {
+        g_headAngle = (35 * (Math.sin(5 * g_seconds) + 
 
 
 
