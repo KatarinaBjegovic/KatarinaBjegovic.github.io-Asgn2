@@ -67,14 +67,18 @@ function connectVariablesToGLSL(){
 
 
 let g_globalAngle = 0;
-let g_yellowAngle = 0;
-let g_purpleAnlge = 0;
-g_yellowAngleAnimation = false;
+let g_footAngle = 0;
+let g_strummingHandAngle = 0;
+let g_noteHandAngle = 0;
+let g_headAngle = 0;
+let g_stringHeight = 0;
+
+let g_animation = false;
 
 function addActionsForHTMLUI(){
 
-    document.getElementById('on').onclick = function() {g_yellowAngleAnimation = true; };
-    document.getElementById('off').onclick = function() {g_yellowAngleAnimation = false; };
+    document.getElementById('on').onclick = function() {g_animation = true; };
+    document.getElementById('off').onclick = function() {g_animation = false; };
 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
@@ -117,10 +121,17 @@ function convertCoordinatesEventToGL(ev){
     return([x,y]);
 }
 
+
+/*
+let g_stringHeight = 0;
+
+*/
 function updateAnimationAngles(){
     if (g_yellowAngleAnimation) {
-        g_yellowAngle = (45*Math.sin(g_seconds));
-        g_purpleAnlge = (45*Math.sin(3*g_seconds));
+        g_headAngle = (45 * Math.sin(g_seconds));
+        g_footAngle = (40 * Math.sin(g_seconds));
+        g_noteHandAngle = (35 * Math.sin(g_seconds));
+        g_strummingHandAngle = (20 * Math.sin(g_seconds));
     }
 }
 
@@ -140,7 +151,7 @@ function renderAllShapes(){
     var head = new Cube();
     head.color = [0.35,0.35,0.35,1.0];
     head.matrix.translate(-.2, 0.2, 0);
-    //head.matrix.rotate(g_headAngle,1,0,0);
+    head.matrix.rotate(g_headAngle,1,0,0);
     headMatrix = new Matrix4(head.matrix);
     head.matrix.scale(0.4,0.4,0.2);
     head.render();
@@ -213,7 +224,6 @@ function renderAllShapes(){
     earLeft2.color = [0.35,0.35,0.35,1.0];
     earLeft2.matrix = new Matrix4(headMatrix);
     earLeft2.matrix.translate(-0.05, 0.33, 0);
-    //body.matrix.rotate(-5,1,0,0);
     earLeft2.matrix.scale(0.1,0.1,0.2);
     earLeft2.render();
 
@@ -221,7 +231,6 @@ function renderAllShapes(){
     earRight.color = [0.35,0.35,0.35,1.0];
     earRight.matrix = new Matrix4(headMatrix);
     earRight.matrix.translate(.35, 0.35, 0);
-    //body.matrix.rotate(-5,1,0,0);
     earRight.matrix.scale(0.1,0.1,0.2);
     earRight.render();
 
@@ -229,7 +238,6 @@ function renderAllShapes(){
     earRight2.color = [0.35,0.35,0.35,1.0];
     earRight2.matrix = new Matrix4(headMatrix);
     earRight2.matrix.translate(.35, 0.33, 0);
-    //body.matrix.rotate(-5,1,0,0);
     earRight2.matrix.scale(0.1,0.1,0.2);
     earRight2.render();
 
@@ -355,7 +363,8 @@ function renderAllShapes(){
     var leftFoot = new Cube();
     leftFoot.color = [0.25,0.25,0.25,1.0];
     leftFoot.matrix.translate(-0.25, -0.75, 0.01);
-    leftFoot.matrix.rotate(180,1,0,0); // rotate from 180 to 200  
+    leftFoot.matrix.rotate(180,1,0,0); 
+    leftFoot.matrix.rotate(g_footAngle,1,0,0); //rotate from 0->40
     leftFoot.matrix.scale(0.24,0.1,0.15);
     leftFoot.render(); 
 // end of parts for foot tapping
@@ -541,19 +550,6 @@ function renderAllShapes(){
 
 // end of animation parts for string
 
-    var leftArm = new Cube();
-    leftArm.color = [0.16,0.19,0.33,1.0];
-    leftArm.matrix.translate(-0.4, -0.18, -0.18);
-    leftArm.matrix.rotate(45,90,0,0); 
-    leftArm.matrix.scale(0.1,0.28,0.1);
-    leftArm.render(); 
-
-    var leftArm2= new Cube();
-    leftArm2.color = [0.16,0.19,0.33,1.0];
-    leftArm2.matrix.translate(-0.3, -0.25, -0.16);
-    leftArm2.matrix.scale(0.22,0.1,0.1);
-    leftArm2.render(); 
-
     var leftShoulder= new Cube();
     leftShoulder.color = [0,0,0,1.0];
     leftShoulder.matrix.translate(-0.32, -0.08, 0);
@@ -561,11 +557,42 @@ function renderAllShapes(){
     leftShoulder.matrix.scale(0.14,0.12,0.15);
     leftShoulder.render(); 
 
+    var leftArm = new Cube();
+    leftArm.color = [0.16,0.19,0.33,1.0];
+    leftArm.matrix.translate(-0.4, -0.18, -0.18);
+    leftArm.matrix.rotate(45,90,0,0); 
+    leftArm.matrix.scale(0.1,0.28,0.1);
+    leftArm.render(); 
+
+
+// start of strumming hand animation parts 
+    var leftForearm= new Cube();
+    leftForearm.color = [0.16,0.19,0.33,1.0];
+    leftForearm.matrix.translate(-0.33, -0.25, -0.16);
+    leftForearm.matrix.rotate(-10,0,0,1);
+    leftForearm.matrix.rotate(g_strummingHandAngle,0,0,1); // 0->20 degrees
+    var leftForearmMatrix = new Matrix4(leftForearm.matrix);
+    leftForearm.matrix.scale(0.25,0.1,0.1);
+    leftForearm.render(); 
+
     var leftHand= new Cube();
     leftHand.color = [0.35,0.35,0.35, 1.0];
-    leftHand.matrix.translate(-0.1, -0.25, -0.16);
+    leftHand.matrix = new Matrix4(leftForearmMatrix);
+    leftHand.matrix.translate(0.23, 0, 0);
     leftHand.matrix.scale(0.15,0.1,0.1);
     leftHand.render(); 
+    
+// end of strumming hand animation parts 
+
+
+    
+    var rightShoulder = new Cube();
+    rightShoulder.color = [0,0,0,1.0];
+    rightShoulder.matrix.translate(0.25, -0.08, 0);
+    rightShoulder.matrix.rotate(45,0,0,1); 
+    rightShoulder.matrix.scale(0.14,0.12,0.15);
+    rightShoulder.render(); 
+    
 
     var rightArm = new Cube();
     rightArm.color = [0.16,0.19,0.33,1.0];
@@ -576,21 +603,7 @@ function renderAllShapes(){
     rightArm.matrix.scale(0.12,0.3,0.1);
     rightArm.render(); 
 
-    var rightArm2 = new Cube();
-    rightArm2.color = [0.16,0.19,0.33,1.0];
-    rightArm2.matrix.translate(0.45, -0.15, -.22);
-    rightArm2.matrix.rotate(45,0,0,1);
-    rightArm2.matrix.scale(0.12,0.21,0.1);
-    rightArm2.render(); 
 
-    var rightHand = new Cube();
-    rightHand.color = [0.35,0.35,0.35,1.0];
-    rightHand.matrix.translate(0.3, -0.01, -.22);
-    rightHand.matrix.rotate(45,0,0,1);
-    rightHand.matrix.scale(0.12,0.1,0.1);
-    rightHand.render(); 
-    
-    
     var rightElbow = new Cube();
     rightElbow.color = [0.16,0.19,0.33,1.0];
     rightElbow.matrix.translate(0.48, -0.2, -.22);
@@ -598,14 +611,24 @@ function renderAllShapes(){
     rightElbow.matrix.scale(0.13,0.09,0.17);
     rightElbow.render(); 
 
+// start of note playing hand animation parts
+    var rightForearm = new Cube();
+    rightForearm.color = [0.16,0.19,0.33,1.0];
+    rightForearm.matrix.translate(0.45, -0.15, -.22);
+    rightForearm.matrix.rotate(25,0,0,1);
+    rightForearm.matrix.rotate(g_noteHandAngle,0,0,1); // move from 0-->35
+    var rightForearmMatrix = new Matrix4(rightForearm.matrix);
+    rightForearm.matrix.scale(0.12,0.21,0.1);
+    rightForearm.render(); 
 
-    var rightShoulder = new Cube();
-    rightShoulder.color = [0,0,0,1.0];
-    rightShoulder.matrix.translate(0.25, -0.08, 0);
-    rightShoulder.matrix.rotate(45,0,0,1); 
-    rightShoulder.matrix.scale(0.14,0.12,0.15);
-    rightShoulder.render(); 
+    var rightHand = new Cube();
+    rightHand.color = [0.35,0.35,0.35,1.0];
+    rightHand.matrix = new Matrix4(rightForearmMatrix);
+    rightHand.matrix.translate(0, 0.20, 0);
+    rightHand.matrix.scale(0.12,0.12,0.1);
+    rightHand.render(); 
 
+// end of note playing hand animation parts
 
     var duration = performance.now() - startTime;
     //sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
