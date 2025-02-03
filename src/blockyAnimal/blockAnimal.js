@@ -72,6 +72,7 @@ let g_strummingHandAngle = 0;
 let g_noteHandAngle = 0;
 let g_headAngle = 0;
 let g_stringHeight = 0;
+let g_poked = false;
 
 let g_leftHandSlider = 0; //[-35,35]
 //g_strummingHandAngle // [-40,40]
@@ -111,15 +112,13 @@ function main() {
 
 
     canvas.addEventListener('click', function(ev) {
+        console.log("here");
         if (ev.shiftKey) {
+            console.log("shift");
             // If shift is held, use the POKE version of the function
-            updateAnimationAnglesPOKE();
-        } else if (g_animation) {
-            // If shift is NOT held and the "on" button is clicked, use the regular animation function
-            updateAnimationAngles();
-        }
-
-        renderAllShapes();
+            g_poked = true;
+            console.log(g_poked);
+        } 
     });
 
     renderAllShapes();
@@ -132,7 +131,8 @@ var g_seconds = performance.now()/1000.0 - g_startTime;
 
 function tick(){
     g_seconds = performance.now()/1000.0-g_startTime;
-    
+
+    console.log(g_poked);
     updateAnimationAngles();
 
     renderAllShapes();
@@ -152,8 +152,8 @@ function convertCoordinatesEventToGL(ev){
 
 /*
 let g_stringHeight = 0;
-
 */
+
 function updateAnimationAngles(){
     if (g_animation) {
         g_headAngle = (22.5 * (Math.sin(3*g_seconds) + 1));
@@ -690,15 +690,15 @@ function renderAllShapes(){
 
 
     var duration = performance.now() - startTime;
-    //sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration));
+    sendTextToHTML((" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration)), 'outputDiv');
 }
 
-// function sendTextToHTML(text, html_ID){
-//     var htmlElm = document.getElementById(html_ID);
-//     if (!htmlElm) {
-//         console.log("Failed to get " + htmlElm + " from HTML");
-//         return;
-//     }
-//     htmlElm.innerHTML = text;
-// }
+function sendTextToHTML(text, html_ID){
+    var htmlElm = document.getElementById(html_ID);
+    if (!htmlElm) {
+        console.log("Failed to get " + htmlElm + " from HTML");
+        return;
+    }
+    htmlElm.innerHTML = text;
+}
  
