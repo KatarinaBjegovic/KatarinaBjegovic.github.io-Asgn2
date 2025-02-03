@@ -197,7 +197,7 @@ function tick() {
         }
     } else {
         updateAnimationAngles();
-        if (!isPlayingSLOW) {
+        if (!isPlayingSLOW && g_animation == true) {
             // Start slow audio when poked is not true
             if (isPlayingFAST) {
                 audioFAST.pause();
