@@ -23,29 +23,29 @@ class Cube{
         // Define all six faces (two triangles per face)
         gl.uniform4f(u_FragColor, rgba[0]*0.85, rgba[1]*0.85, rgba[2]*0.85 , rgba[3]);
 // Front face
-        drawTriangle3D(0, 0, 0,  1, 1, 0,  1, 0, 0);
-        drawTriangle3D(0, 0, 0,  0, 1, 0,  1, 1, 0,);
+        drawTriangle3D([0, 0, 0,  1, 1, 0,  1, 0, 0]);
+        drawTriangle3D([0, 0, 0,  0, 1, 0,  1, 1, 0]);
 //back face
-        drawTriangle3D(0, 0, 1,  1, 1, 1,  1, 0, 1);
-        drawTriangle3D(0, 0, 1,  0, 1, 1,  1, 1, 1);
+        drawTriangle3D([0, 0, 1,  1, 1, 1,  1, 0, 1]);
+        drawTriangle3D([0, 0, 1,  0, 1, 1,  1, 1, 1]);
 
 //top face
         gl.uniform4f(u_FragColor, rgba[0]*0.9, rgba[1]*0.9, rgba[2]*0.9 , rgba[3]);
         
-        drawTriangle3D(0, 1, 0,  1, 1, 1,  0, 1, 1);
-        drawTriangle3D(0, 1, 0,  1, 1, 0,  1, 1, 1);
+        drawTriangle3D([0, 1, 0,  1, 1, 1,  0, 1, 1]);
+        drawTriangle3D([0, 1, 0,  1, 1, 0,  1, 1, 1]);
 //bottom face
-        drawTriangle3D(0, 0, 0,  1, 0, 1,  0, 0, 1);
-        drawTriangle3D(0, 0, 0,  1, 0, 0,  1, 0, 1);
+        drawTriangle3D([0, 0, 0,  1, 0, 1,  0, 0, 1]);
+        drawTriangle3D([0, 0, 0,  1, 0, 0,  1, 0, 1]);
 
         gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
 //left and right sides
 
-        drawTriangle3D(0, 0, 0,  0, 1, 1,  0, 1, 0);
-        drawTriangle3D(0, 0, 0,  0, 0, 1,  0, 1, 1);
+        drawTriangle3D([0, 0, 0,  0, 1, 1,  0, 1, 0]);
+        drawTriangle3D([0, 0, 0,  0, 0, 1,  0, 1, 1]);
 
-        drawTriangle3D(1, 0, 0,  1, 1, 1,  1, 1, 0);
-        drawTriangle3D(1, 0, 0,  1, 0, 1,  1, 1, 1);
+        drawTriangle3D([1, 0, 0,  1, 1, 1,  1, 1, 0]);
+        drawTriangle3D([1, 0, 0,  1, 0, 1,  1, 1, 1]);
 
     }
 }
