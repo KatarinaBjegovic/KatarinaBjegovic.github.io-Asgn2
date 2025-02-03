@@ -87,7 +87,7 @@ function addActionsForHTMLUI(){
 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
-    document.getElementById("hand").addEventListener('mousemove', function(){g_leftHandSlider = this.value; renderAllShapes();}); 
+    document.getElementById("hand").addEventListener('mousemove', function(){ g_leftHandSlider = this.value; renderAllShapes();}); 
 
     document.getElementById("shoulder").addEventListener('mousemove', function(){g_shoulderAngleSldier = this.value; renderAllShapes();}); 
 
@@ -272,7 +272,7 @@ function renderAllShapes(){
     earring2.matrix.scale(0.01,0.07,0.21);
     earring2.render();
 
-    var septum = new Cube();
+    var septum = new Pyramid();
     septum.color = [0,0,0,1.0];
     septum.matrix = new Matrix4(headMatrix);
     septum.matrix.translate(0.225, 0.035, -0.01);
@@ -280,7 +280,7 @@ function renderAllShapes(){
     septum.matrix.scale(0.01,0.02,0.0005);
     septum.render();
     
-    var septum2 = new Cube();
+    var septum2 = new Pyramid();
     septum2.color = [0,0,0,1.0];
     septum2.matrix = new Matrix4(headMatrix);
     septum2.matrix.translate(0.23, 0.035, -0.01);
@@ -288,7 +288,7 @@ function renderAllShapes(){
     septum2.matrix.scale(0.01,0.02,0.005);
     septum2.render();
 
-    var septumLeft = new Cube();
+    var septumLeft = new Pyramid();
     septumLeft.color = [0,0,0,1.0];
     septumLeft.matrix = new Matrix4(headMatrix);
     septumLeft.matrix.translate(0.16, 0.04, -0.01);
@@ -296,7 +296,7 @@ function renderAllShapes(){
     septumLeft.matrix.scale(0.01,0.02,0.005);
     septumLeft.render();
     
-    var septumLeft2 = new Cube();
+    var septumLeft2 = new Pyramid();
     septumLeft2.color = [0,0,0,1.0];
     septumLeft2.matrix = new Matrix4(headMatrix);
     septumLeft2.matrix.translate(0.17, 0.04, -0.01);
