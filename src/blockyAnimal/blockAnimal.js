@@ -79,6 +79,12 @@ let g_leftHandSlider = 0; //[-35,35]
 let g_leftArmSlider = 0; //(0,20)
 let g_shoulderAngleSldier = 0; // [0,50]
 
+
+let g_isDragging = false;  // Flag to track if the mouse is being dragged
+let g_initialX = 0;        // Initial X position when the mouse is clicked
+let g_initialAngle = 0;    // Initial angle when the mouse is clicked
+
+
 let g_animation = false;
 
 function addActionsForHTMLUI(){
@@ -117,6 +123,31 @@ function main() {
         } 
     });
 
+
+    // Handle mouse interactions to control global rotation
+    canvas.addEventListener('mousedown', function(ev) {
+        g_isDragging = true;
+        // Get the initial mouse X position and corresponding angle
+        g_initialX = ev.clientX;
+        g_initialAngle = g_globalAngle;
+    });
+
+    canvas.addEventListener('mousemove', function(ev) {
+        if (g_isDragging) {
+            // Calculate the change in mouse position
+            const deltaX = ev.clientX - g_initialX;
+            // Adjust the global angle based on the mouse movement
+            g_globalAngle = g_initialAngle + deltaX * 0.2;  // 0.2 is a scaling factor to control sensitivity
+            renderAllShapes();  // Re-render the shapes with updated angle
+        }
+    });
+
+    canvas.addEventListener('mouseup', function(ev) {
+        g_isDragging = false;  // Stop dragging when the mouse is released
+    });
+
+
+
     renderAllShapes();
     
     requestAnimationFrame(tick);
@@ -147,6 +178,9 @@ function convertCoordinatesEventToGL(ev){
     y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
     return([x,y]);
 }
+
+
+    
 
 
 /*
