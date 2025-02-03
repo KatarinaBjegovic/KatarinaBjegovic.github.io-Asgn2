@@ -189,11 +189,9 @@ function tick() {
             if (isPlayingSLOW) {
                 audioSLOW.pause();
                 isPlayingSLOW = false;
-                console.log('Stopped slow music');
             }
             audioFAST.play();
             isPlayingFAST = true;
-            console.log('Playing fast music');
         }
     } else {
         updateAnimationAngles();
@@ -202,11 +200,9 @@ function tick() {
             if (isPlayingFAST) {
                 audioFAST.pause();
                 isPlayingFAST = false;
-                console.log('Stopped fast music');
             }
             audioSLOW.play();
             isPlayingSLOW = true;
-            console.log('Playing slow music');
         }
     }
 
@@ -233,6 +229,7 @@ function updateAnimationAngles(){
         g_noteHandAngle = (17.5 * (Math.sin(g_seconds) + 1));
         g_strummingHandAngle = (10 * (Math.sin(2.5 * g_seconds) + 1));
         g_stringHeight = 0.02 * (Math.sin(2.5 * g_seconds) + 1);
+        g_leftHandSlider = 20 * Math.sin(7.5 * g_seconds);
     }
 }
 
@@ -243,16 +240,9 @@ function updateAnimationAnglesPOKE(){
         g_noteHandAngle = (17.5 * (Math.sin(3*g_seconds) + 1));
         g_strummingHandAngle = 40 * Math.sin(5 * g_seconds);
         g_stringHeight = 0.02 * (Math.sin(5 * g_seconds) + 1);
+        g_leftHandSlider = 5 * Math.sin(8 * g_seconds);
     }
 }
-
-
-
-
-
-
-
-
 
 
 function renderAllShapes(){
@@ -271,7 +261,7 @@ function renderAllShapes(){
     var head = new Cube();
     head.color = [0.35,0.35,0.35,1.0];
     head.matrix.translate(-.2, 0.2, 0);
-    head.matrix.rotate(-45,1,0,0);
+    head.matrix.rotate(-55,1,0,0);
     head.matrix.rotate(g_headAngle,1,0,0);
     headMatrix = new Matrix4(head.matrix);
     head.matrix.scale(0.4,0.4,0.2);
@@ -337,7 +327,6 @@ function renderAllShapes(){
     earLeft.color = [0.35,0.35,0.35,1.0];
     earLeft.matrix = new Matrix4(headMatrix);
     earLeft.matrix.translate(-0.05, 0.35, 0);
-    //body.matrix.rotate(-5,1,0,0);
     earLeft.matrix.scale(0.1,0.1,0.2);
     earLeft.render();
 
