@@ -84,7 +84,7 @@ let g_animation = false;
 function addActionsForHTMLUI(){
 
     document.getElementById('on').onclick = function() {g_animation = true; };
-    document.getElementById('off').onclick = function() {g_animation = false; };
+    document.getElementById('off').onclick = function() {g_animation = false; g_poked = false; };
 
     document.getElementById("angle_slider").addEventListener('mousemove', function(){g_globalAngle = this.value; renderAllShapes();}); 
 
@@ -112,12 +112,8 @@ function main() {
 
 
     canvas.addEventListener('click', function(ev) {
-        console.log("here");
         if (ev.shiftKey) {
-            console.log("shift");
-            // If shift is held, use the POKE version of the function
             g_poked = true;
-            console.log(g_poked);
         } 
     });
 
@@ -132,9 +128,12 @@ var g_seconds = performance.now()/1000.0 - g_startTime;
 function tick(){
     g_seconds = performance.now()/1000.0-g_startTime;
 
-    console.log(g_poked);
-    updateAnimationAngles();
-
+    if (g_poked == true) {
+        updateAnimationAnglesPOKE();
+    } else {
+        updateAnimationAngles();
+    }
+    
     renderAllShapes();
 
     requestAnimationFrame(tick);
@@ -166,11 +165,11 @@ function updateAnimationAngles(){
 
 function updateAnimationAnglesPOKE(){
     if (g_animation) {
-        g_headAngle = (22.5 * (Math.sin(3*g_seconds) + 1));
-        g_footAngle = (10 * (Math.sin(3*g_seconds) + 1));
-        g_noteHandAngle = (17.5 * (Math.sin(g_seconds) + 1));
-        g_strummingHandAngle = (10 * (Math.sin(2.5 * g_seconds) + 1));
-        g_stringHeight = 0.02 * (Math.sin(2.5 * g_seconds) + 1);
+        g_headAngle = (35 * (Math.sin(5*g_seconds) + 1));
+        g_footAngle = (10 * (Math.sin(10*g_seconds) + 1));
+        g_noteHandAngle = (17.5 * (Math.sin(3*g_seconds) + 1));
+        g_strummingHandAngle = 40 * Math.sin(5 * g_seconds);
+        g_stringHeight = 0.02 * (Math.sin(5 * g_seconds) + 1);
     }
 }
 
