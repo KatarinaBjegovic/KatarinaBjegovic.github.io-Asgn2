@@ -85,8 +85,8 @@ let g_initialAngle = 0;    // Initial angle when the mouse is clicked
 
 let g_animation = false;
 
-let audioSLOW = new Audio('music/CSD.mp3');
-let audioFAST = new Audio('music/BFMM.mp3');
+let audioSLOW = new Audio('src/blockyAnimal/music/CSD.mp3');
+let audioFAST = new Audio('src/blockyAnimal/music/BFMM.mp3');
 let isPlayingSLOW = false;
 let isPlayingFAST = false;
 
