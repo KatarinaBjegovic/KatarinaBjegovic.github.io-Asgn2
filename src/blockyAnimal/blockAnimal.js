@@ -108,7 +108,22 @@ function main() {
     gl.clearColor(1.0, 0.75, 0.8, 1.0);
 
     //gl.clear(gl.COLOR_BUFFER_BIT);
+
+
+    canvas.addEventListener('click', function(ev) {
+        if (ev.shiftKey) {
+            // If shift is held, use the POKE version of the function
+            updateAnimationAnglesPOKE();
+        } else if (g_animation) {
+            // If shift is NOT held and the "on" button is clicked, use the regular animation function
+            updateAnimationAngles();
+        }
+
+        renderAllShapes();
+    });
+
     renderAllShapes();
+    
     requestAnimationFrame(tick);
 }
 
@@ -140,6 +155,16 @@ let g_stringHeight = 0;
 
 */
 function updateAnimationAngles(){
+    if (g_animation) {
+        g_headAngle = (22.5 * (Math.sin(3*g_seconds) + 1));
+        g_footAngle = (10 * (Math.sin(3*g_seconds) + 1));
+        g_noteHandAngle = (17.5 * (Math.sin(g_seconds) + 1));
+        g_strummingHandAngle = (10 * (Math.sin(2.5 * g_seconds) + 1));
+        g_stringHeight = 0.02 * (Math.sin(2.5 * g_seconds) + 1);
+    }
+}
+
+function updateAnimationAnglesPOKE(){
     if (g_animation) {
         g_headAngle = (22.5 * (Math.sin(3*g_seconds) + 1));
         g_footAngle = (10 * (Math.sin(3*g_seconds) + 1));
